@@ -1,0 +1,359 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E22D352E17792AAB00CCFB5C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22D352D17792AAB00CCFB5C /* UIKit.framework */; };
+		E22D353017792AAB00CCFB5C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22D352F17792AAB00CCFB5C /* Foundation.framework */; };
+		E22D353217792AAB00CCFB5C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22D353117792AAB00CCFB5C /* CoreGraphics.framework */; };
+		E22D353817792AAB00CCFB5C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E22D353617792AAB00CCFB5C /* InfoPlist.strings */; };
+		E22D353A17792AAB00CCFB5C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E22D353917792AAB00CCFB5C /* main.m */; };
+		E22D353E17792AAB00CCFB5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E22D353D17792AAB00CCFB5C /* AppDelegate.m */; };
+		E22D354017792AAB00CCFB5C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D353F17792AAB00CCFB5C /* Default.png */; };
+		E22D354217792AAB00CCFB5C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D354117792AAB00CCFB5C /* Default@2x.png */; };
+		E22D354417792AAB00CCFB5C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D354317792AAB00CCFB5C /* Default-568h@2x.png */; };
+		E22D354717792AAB00CCFB5C /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22D354617792AAB00CCFB5C /* FirstViewController.m */; };
+		E22D354917792AAB00CCFB5C /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D354817792AAB00CCFB5C /* first.png */; };
+		E22D354B17792AAB00CCFB5C /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D354A17792AAB00CCFB5C /* first@2x.png */; };
+		E22D354E17792AAB00CCFB5C /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22D354D17792AAB00CCFB5C /* SecondViewController.m */; };
+		E22D355017792AAB00CCFB5C /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D354F17792AAB00CCFB5C /* second.png */; };
+		E22D355217792AAB00CCFB5C /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D355117792AAB00CCFB5C /* second@2x.png */; };
+		E22D355517792AAB00CCFB5C /* FirstViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22D355317792AAB00CCFB5C /* FirstViewController_iPhone.xib */; };
+		E22D355817792AAB00CCFB5C /* FirstViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22D355617792AAB00CCFB5C /* FirstViewController_iPad.xib */; };
+		E22D355B17792AAB00CCFB5C /* SecondViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22D355917792AAB00CCFB5C /* SecondViewController_iPhone.xib */; };
+		E22D355E17792AAB00CCFB5C /* SecondViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22D355C17792AAB00CCFB5C /* SecondViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E22D352917792AAB00CCFB5C /* ExpenseReport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpenseReport.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E22D352D17792AAB00CCFB5C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E22D352F17792AAB00CCFB5C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E22D353117792AAB00CCFB5C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E22D353517792AAB00CCFB5C /* ExpenseReport-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExpenseReport-Info.plist"; sourceTree = "<group>"; };
+		E22D353717792AAB00CCFB5C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E22D353917792AAB00CCFB5C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E22D353B17792AAB00CCFB5C /* ExpenseReport-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ExpenseReport-Prefix.pch"; sourceTree = "<group>"; };
+		E22D353C17792AAB00CCFB5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E22D353D17792AAB00CCFB5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E22D353F17792AAB00CCFB5C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		E22D354117792AAB00CCFB5C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		E22D354317792AAB00CCFB5C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E22D354517792AAB00CCFB5C /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		E22D354617792AAB00CCFB5C /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		E22D354817792AAB00CCFB5C /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		E22D354A17792AAB00CCFB5C /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		E22D354C17792AAB00CCFB5C /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		E22D354D17792AAB00CCFB5C /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		E22D354F17792AAB00CCFB5C /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		E22D355117792AAB00CCFB5C /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		E22D355417792AAB00CCFB5C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FirstViewController_iPhone.xib; sourceTree = "<group>"; };
+		E22D355717792AAB00CCFB5C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FirstViewController_iPad.xib; sourceTree = "<group>"; };
+		E22D355A17792AAB00CCFB5C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondViewController_iPhone.xib; sourceTree = "<group>"; };
+		E22D355D17792AAB00CCFB5C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E22D352617792AAB00CCFB5C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E22D352E17792AAB00CCFB5C /* UIKit.framework in Frameworks */,
+				E22D353017792AAB00CCFB5C /* Foundation.framework in Frameworks */,
+				E22D353217792AAB00CCFB5C /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E22D351E17792AAB00CCFB5C = {
+			isa = PBXGroup;
+			children = (
+				E22D353317792AAB00CCFB5C /* ExpenseReport */,
+				E22D352C17792AAB00CCFB5C /* Frameworks */,
+				E22D352A17792AAB00CCFB5C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E22D352A17792AAB00CCFB5C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E22D352917792AAB00CCFB5C /* ExpenseReport.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E22D352C17792AAB00CCFB5C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E22D352D17792AAB00CCFB5C /* UIKit.framework */,
+				E22D352F17792AAB00CCFB5C /* Foundation.framework */,
+				E22D353117792AAB00CCFB5C /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E22D353317792AAB00CCFB5C /* ExpenseReport */ = {
+			isa = PBXGroup;
+			children = (
+				E22D353C17792AAB00CCFB5C /* AppDelegate.h */,
+				E22D353D17792AAB00CCFB5C /* AppDelegate.m */,
+				E22D354517792AAB00CCFB5C /* FirstViewController.h */,
+				E22D354617792AAB00CCFB5C /* FirstViewController.m */,
+				E22D354817792AAB00CCFB5C /* first.png */,
+				E22D354A17792AAB00CCFB5C /* first@2x.png */,
+				E22D354C17792AAB00CCFB5C /* SecondViewController.h */,
+				E22D354D17792AAB00CCFB5C /* SecondViewController.m */,
+				E22D354F17792AAB00CCFB5C /* second.png */,
+				E22D355117792AAB00CCFB5C /* second@2x.png */,
+				E22D355317792AAB00CCFB5C /* FirstViewController_iPhone.xib */,
+				E22D355617792AAB00CCFB5C /* FirstViewController_iPad.xib */,
+				E22D355917792AAB00CCFB5C /* SecondViewController_iPhone.xib */,
+				E22D355C17792AAB00CCFB5C /* SecondViewController_iPad.xib */,
+				E22D353417792AAB00CCFB5C /* Supporting Files */,
+			);
+			path = ExpenseReport;
+			sourceTree = "<group>";
+		};
+		E22D353417792AAB00CCFB5C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E22D353517792AAB00CCFB5C /* ExpenseReport-Info.plist */,
+				E22D353617792AAB00CCFB5C /* InfoPlist.strings */,
+				E22D353917792AAB00CCFB5C /* main.m */,
+				E22D353B17792AAB00CCFB5C /* ExpenseReport-Prefix.pch */,
+				E22D353F17792AAB00CCFB5C /* Default.png */,
+				E22D354117792AAB00CCFB5C /* Default@2x.png */,
+				E22D354317792AAB00CCFB5C /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E22D352817792AAB00CCFB5C /* ExpenseReport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E22D356117792AAB00CCFB5C /* Build configuration list for PBXNativeTarget "ExpenseReport" */;
+			buildPhases = (
+				E22D352517792AAB00CCFB5C /* Sources */,
+				E22D352617792AAB00CCFB5C /* Frameworks */,
+				E22D352717792AAB00CCFB5C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ExpenseReport;
+			productName = ExpenseReport;
+			productReference = E22D352917792AAB00CCFB5C /* ExpenseReport.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E22D352017792AAB00CCFB5C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Fu Steven";
+			};
+			buildConfigurationList = E22D352317792AAB00CCFB5C /* Build configuration list for PBXProject "ExpenseReport" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E22D351E17792AAB00CCFB5C;
+			productRefGroup = E22D352A17792AAB00CCFB5C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E22D352817792AAB00CCFB5C /* ExpenseReport */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E22D352717792AAB00CCFB5C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E22D353817792AAB00CCFB5C /* InfoPlist.strings in Resources */,
+				E22D354017792AAB00CCFB5C /* Default.png in Resources */,
+				E22D354217792AAB00CCFB5C /* Default@2x.png in Resources */,
+				E22D354417792AAB00CCFB5C /* Default-568h@2x.png in Resources */,
+				E22D354917792AAB00CCFB5C /* first.png in Resources */,
+				E22D354B17792AAB00CCFB5C /* first@2x.png in Resources */,
+				E22D355017792AAB00CCFB5C /* second.png in Resources */,
+				E22D355217792AAB00CCFB5C /* second@2x.png in Resources */,
+				E22D355517792AAB00CCFB5C /* FirstViewController_iPhone.xib in Resources */,
+				E22D355817792AAB00CCFB5C /* FirstViewController_iPad.xib in Resources */,
+				E22D355B17792AAB00CCFB5C /* SecondViewController_iPhone.xib in Resources */,
+				E22D355E17792AAB00CCFB5C /* SecondViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E22D352517792AAB00CCFB5C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E22D353A17792AAB00CCFB5C /* main.m in Sources */,
+				E22D353E17792AAB00CCFB5C /* AppDelegate.m in Sources */,
+				E22D354717792AAB00CCFB5C /* FirstViewController.m in Sources */,
+				E22D354E17792AAB00CCFB5C /* SecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E22D353617792AAB00CCFB5C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E22D353717792AAB00CCFB5C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E22D355317792AAB00CCFB5C /* FirstViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E22D355417792AAB00CCFB5C /* en */,
+			);
+			name = FirstViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		E22D355617792AAB00CCFB5C /* FirstViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E22D355717792AAB00CCFB5C /* en */,
+			);
+			name = FirstViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		E22D355917792AAB00CCFB5C /* SecondViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E22D355A17792AAB00CCFB5C /* en */,
+			);
+			name = SecondViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		E22D355C17792AAB00CCFB5C /* SecondViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E22D355D17792AAB00CCFB5C /* en */,
+			);
+			name = SecondViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E22D355F17792AAB00CCFB5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E22D356017792AAB00CCFB5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E22D356217792AAB00CCFB5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ExpenseReport/ExpenseReport-Prefix.pch";
+				INFOPLIST_FILE = "ExpenseReport/ExpenseReport-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E22D356317792AAB00CCFB5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ExpenseReport/ExpenseReport-Prefix.pch";
+				INFOPLIST_FILE = "ExpenseReport/ExpenseReport-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E22D352317792AAB00CCFB5C /* Build configuration list for PBXProject "ExpenseReport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E22D355F17792AAB00CCFB5C /* Debug */,
+				E22D356017792AAB00CCFB5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E22D356117792AAB00CCFB5C /* Build configuration list for PBXNativeTarget "ExpenseReport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E22D356217792AAB00CCFB5C /* Debug */,
+				E22D356317792AAB00CCFB5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E22D352017792AAB00CCFB5C /* Project object */;
+}
