@@ -3,7 +3,7 @@
 //
 
 #import <Availability.h>
-
+#import "AppSettings.h"
 #ifndef __IPHONE_4_0
 #warning "This project uses features only available in iOS SDK 4.0 and later."
 #endif
@@ -12,3 +12,16 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+#define PRINT_JSON_RETURN 1
+
+#define APP_TITLE   @"Expense Report"
+#define ServerUrl @"http://10.4.30.190:4205/api/"
+#define EVENT_LOGIN @"App:Login"
+#define EVENT_LOGOUT @"App:Logout"
+
+
+#define REPORTSTATUS @"ReportStatus"
+#define EXPENSEPURPOSE @"ExpensePurpose"
+#define EXPENSESERVCIE @"ExpenseService"
+
+#define MESSAGE_CHOOSE_DATE @"message:choose_date"

@@ -8,16 +8,31 @@
 
 #import "AppDelegate.h"
 
-#import "FirstViewController.h"
-
-#import "SecondViewController.h"
+#import "LoginViewController.h"
+#import "ExpenseReportsMain.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    //[[AppSettings sharedSettings] load_init_data];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    if ([AppSettings sharedSettings].isLogin){
+        [self startApp];
+    }else{
+        [self startLogin];
+    }
+    
+   
+    [self.window makeKeyAndVisible];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startApp) name:EVENT_LOGIN object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startLogin) name:EVENT_LOGOUT object:nil];
+    return YES;
+}
+
+-(void)startApp{
+    /*
     UIViewController *viewController1, *viewController2;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         viewController1 = [[FirstViewController alloc] initWithNibName:@"FirstViewController_iPhone" bundle:nil];
@@ -28,9 +43,16 @@
     }
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[viewController1, viewController2];
+     */
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.tabBarController.viewControllers = [[[ExpenseReportsMain alloc] init] createControllers];
     self.window.rootViewController = self.tabBarController;
-    [self.window makeKeyAndVisible];
-    return YES;
+}
+
+-(void)startLogin{
+    LoginViewController *vc =[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:vc];
+    self.window.rootViewController = controller;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -58,6 +80,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*
