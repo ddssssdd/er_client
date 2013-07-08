@@ -55,7 +55,25 @@
 //******************************************** ER Report Detail******************************************
 @implementation ERReportDetail
 
-
+-(id)init{
+    self = [super init];
+    if (self){
+        self.detailId =0;
+        self.reportId =0;
+        self.purposeId =0;
+        self.purpose=@"";
+        self.serviceId=0;
+        self.service =@"";
+        self.amount = 0.0f;
+        self.total_amount = 0.0f;
+        self.expense_date = @"";
+        self.return_reason =@"";
+        self.paidbyco=0;
+        self.mileage =0.0f;
+        self.expenseId =0;
+    }
+    return self;
+}
 
 -(id)initWithJSON:(id)json{
     self =[super init];

@@ -53,13 +53,14 @@
          forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:datePicker];
     
-    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonItemStyleDone target:self action:@selector(save)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
     
     
     
 }
 -(void)save{
-    [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_CHOOSE_DATE object:nil userInfo:@{@"value":self.datePicker.date}];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_CHOOSE_DATE object:nil userInfo:@{@"value":self.datelabel.text,@"key":self.key}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)LabelChange:(id)sender{

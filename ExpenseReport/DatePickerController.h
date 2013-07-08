@@ -16,4 +16,5 @@
 
 @property(nonatomic,retain) UIDatePicker *datePicker;
 @property(nonatomic,retain) IBOutlet UILabel *datelabel;
+@property (nonatomic) NSString *key;
 @end

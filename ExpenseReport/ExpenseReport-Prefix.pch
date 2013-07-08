@@ -25,3 +25,4 @@
 #define EXPENSESERVCIE @"ExpenseService"
 
 #define MESSAGE_CHOOSE_DATE @"message:choose_date"
+#define MESSAGE_CHOOSE_ITEM @"message:choose_item"
