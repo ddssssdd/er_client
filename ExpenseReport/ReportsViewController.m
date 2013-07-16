@@ -92,16 +92,24 @@
 {
     id item = [[_list objectAtIndex:indexPath.section][@"list"] objectAtIndex:indexPath.row];
     ERReport *report = [[ERReport alloc] initWithJSON:item];
-    ReportDetailController *vc = [[ReportDetailController alloc] initWithNibName:@"ReportDetailController" bundle:nil];
-    vc.report = report;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if (report.status_id==1){
+        EditExpenseReportControler *controller =[[EditExpenseReportControler alloc] initWithNibName:@"EditExpenseReportControler" bundle:nil];
+        controller.report = report;
+        [self.navigationController pushViewController:controller animated:YES];
+    }else{
+        ReportDetailController *vc = [[ReportDetailController alloc] initWithNibName:@"ReportDetailController" bundle:nil];
+        vc.report = report;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+
     
 }
 
 -(void)initData{
     [[AppSettings sharedSettings].dict get_reportstatus:^(NSArray *list) {
         _reportstatus = list;
-        NSString *url =[NSString stringWithFormat:@"ExpenseReports/reports?relocateeId=%d",[AppSettings sharedSettings].userid];
+        NSString *url =[NSString stringWithFormat:@"ExpenseReports/reports?relocateeId=%d",[AppSettings sharedSettings].relocateeId];
         [[AppSettings sharedSettings].http get:url block:^(id json) {
             if ([[AppSettings sharedSettings] isSuccess:json]){
                 [self process_data:json[@"result"]];

@@ -40,7 +40,7 @@
         if ([[AppSettings sharedSettings] isSuccess:json]){
             LoginRelocateeController *vc = [[LoginRelocateeController alloc] initWithNibName:@"LoginRelocateeController" bundle:nil];
             [self.navigationController pushViewController:vc animated:YES];
-            [vc loginWithPersonId:[json[@"result"][@"PersonID"] intValue]];
+            [vc loginWithPersonId:[json[@"result"][@"PersonID"] intValue] userId:[json[@"result"][@"PersonUserID"] intValue]];
         }
     }];
     

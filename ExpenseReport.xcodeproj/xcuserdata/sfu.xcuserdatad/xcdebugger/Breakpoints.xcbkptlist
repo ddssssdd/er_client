@@ -21,12 +21,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/LoginRelocateeController.m"
-         timestampString = "393821497.869989"
+         timestampString = "395652262.96336"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "87"
-         endingLineNumber = "87"
-         landmarkName = "-loginWithPersonId:"
+         startingLineNumber = "89"
+         endingLineNumber = "89"
+         landmarkName = "-loginWithPersonId:userId:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/LoginRelocateeController.m"
-         timestampString = "393821497.869989"
+         timestampString = "395652262.96336"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "64"
-         endingLineNumber = "64"
+         startingLineNumber = "65"
+         endingLineNumber = "65"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,12 +47,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/LoginRelocateeController.m"
-         timestampString = "393821497.869989"
+         timestampString = "395652262.96336"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "86"
-         endingLineNumber = "86"
-         landmarkName = "-loginWithPersonId:"
+         startingLineNumber = "88"
+         endingLineNumber = "88"
+         landmarkName = "-loginWithPersonId:userId:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -60,12 +60,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/LoginRelocateeController.m"
-         timestampString = "393821497.869989"
+         timestampString = "395652262.96336"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "83"
-         endingLineNumber = "83"
-         landmarkName = "-loginWithPersonId:"
+         startingLineNumber = "84"
+         endingLineNumber = "84"
+         landmarkName = "-loginWithPersonId:userId:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/AppSettings.m"
-         timestampString = "394013313.236925"
+         timestampString = "395652262.96336"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "159"
-         endingLineNumber = "159"
+         startingLineNumber = "169"
+         endingLineNumber = "169"
          landmarkName = "-load_init_data"
          landmarkType = "5">
       </FileBreakpoint>
@@ -242,11 +242,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/EditExpenseReportControler.m"
-         timestampString = "394964633.658102"
+         timestampString = "395654082.445713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "144"
-         endingLineNumber = "144"
+         startingLineNumber = "233"
+         endingLineNumber = "233"
          landmarkName = "-init_report"
          landmarkType = "5">
       </FileBreakpoint>
@@ -255,11 +255,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/EditExpenseReportControler.m"
-         timestampString = "394963882.145606"
+         timestampString = "395654082.445713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "109"
-         endingLineNumber = "109"
+         startingLineNumber = "185"
+         endingLineNumber = "185"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -268,11 +268,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/EditExpenseReportControler.m"
-         timestampString = "394963882.145606"
+         timestampString = "395654082.445713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "45"
-         endingLineNumber = "45"
+         startingLineNumber = "105"
+         endingLineNumber = "105"
          landmarkName = "-dateChoosed:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -281,11 +281,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/EditExpenseReportControler.m"
-         timestampString = "394963882.145606"
+         timestampString = "395654082.445713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "47"
-         endingLineNumber = "47"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
          landmarkName = "-dateChoosed:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -294,11 +294,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/EditExpenseReportControler.m"
-         timestampString = "394963882.145606"
+         timestampString = "395654082.445713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "55"
-         endingLineNumber = "55"
+         startingLineNumber = "121"
+         endingLineNumber = "121"
          landmarkName = "-changeValue:value:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -307,11 +307,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/EditExpenseReportControler.m"
-         timestampString = "394963882.145606"
+         timestampString = "395654082.445713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "56"
-         endingLineNumber = "56"
+         startingLineNumber = "122"
+         endingLineNumber = "122"
          landmarkName = "-changeValue:value:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -320,12 +320,90 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ExpenseReport/EditExpenseReportControler.m"
-         timestampString = "394963882.145606"
+         timestampString = "395654082.445713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "59"
-         endingLineNumber = "59"
+         startingLineNumber = "125"
+         endingLineNumber = "125"
          landmarkName = "-changeValue:value:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ExpenseReport/EditReportDetailController.m"
+         timestampString = "395650907.100361"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "159"
+         endingLineNumber = "159"
+         landmarkName = "-textChanged:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ExpenseReport/EditExpenseReportControler.m"
+         timestampString = "395654082.445713"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "101"
+         endingLineNumber = "101"
+         landmarkName = "-getDetail:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ExpenseReport/EditExpenseReportControler.m"
+         timestampString = "395654082.445713"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "28"
+         endingLineNumber = "28"
+         landmarkName = "-initWithStyle:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ExpenseReport/EditExpenseReportControler.m"
+         timestampString = "395654087.012301"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "61"
+         endingLineNumber = "61"
+         landmarkName = "-save"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ExpenseReport/EditExpenseReportControler.m"
+         timestampString = "395654272.039253"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "70"
+         endingLineNumber = "70"
+         landmarkName = "-saveDetail:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ExpenseReport/EditExpenseReportControler.m"
+         timestampString = "395654290.880408"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "86"
+         endingLineNumber = "86"
+         landmarkName = "-saveDetail:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

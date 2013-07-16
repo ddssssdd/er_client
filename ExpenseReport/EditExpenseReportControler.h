@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ERReport.h"
 
-@interface EditExpenseReportControler : UITableViewController
+@interface EditExpenseReportControler : UITableViewController<UITextFieldDelegate>
 @property (nonatomic) ERReport *report;
+
 @end

@@ -10,6 +10,7 @@
 
 @interface LoginRelocateeController (){
     int _perosnId;
+    int _userId;
     id _list;
     id _currentRelocatee;
 }
@@ -79,8 +80,9 @@
 }
 
 
--(void)loginWithPersonId:(int)personId{
+-(void)loginWithPersonId:(int)personId userId:(int)userId{
     _perosnId = personId;
+    _userId = userId;
     NSString *url =[NSString stringWithFormat:@"users/loginMC?personId=%d",_perosnId];
     [[AppSettings sharedSettings].http get:url block:^(id json) {
         if ([[AppSettings sharedSettings] isSuccess:json]){
@@ -94,6 +96,6 @@
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please choose one relocatee" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
         return;
     }
-    [[AppSettings sharedSettings] login:_currentRelocatee];
+    [[AppSettings sharedSettings] login:_currentRelocatee userId:_userId personId:_perosnId];
 }
 @end

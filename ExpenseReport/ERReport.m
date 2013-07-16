@@ -64,8 +64,8 @@
         self.purpose=@"";
         self.serviceId=0;
         self.service =@"";
-        self.amount = 0.0f;
-        self.total_amount = 0.0f;
+        self.amount = 0;
+        self.total_amount = 0;
         self.expense_date = @"";
         self.return_reason =@"";
         self.paidbyco=0;

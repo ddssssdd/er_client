@@ -37,21 +37,44 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
 }
 -(void)save{
+    id part1 = [_list objectAtIndex:0];
+    self.detail.amount = [[part1 objectAtIndex:3][@"value"] floatValue];
+    self.detail.mileage =[[part1 objectAtIndex:4][@"value"] floatValue];
+    if (self.detail.serviceId==0){
+        [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please choose one service." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        return;
+    }
+    if (self.detail.purposeId==0){
+        [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please choose one purpose." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        return;
+    }
+    if ([self.detail.expense_date isEqual:@""]){
+        [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please input expense date." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_SAVE_DETAIL object:self.detail];
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)dateChoosed:(NSNotification *)notification{
     id data = notification.userInfo;
     if (data){
-        NSLog(@"%@",data);
         [self changeValue:data[@"key"] value:data[@"value"]];
+        self.detail.expense_date = data[@"value"];
     }
 }
 -(void)itemsChoosed:(NSNotification *)notification{
     id data = notification.userInfo;
     if (data){
-        NSLog(@"%@",data);
-        
         [self changeValue:data[@"key"] value:data[@"value"][@"Description"]];
+        if ([data[@"key"] isEqual:@"purpose"]){
+            self.detail.purposeId = [data[@"value"][@"ERExpensePurposeID"] intValue];
+            self.detail.purpose = data[@"value"][@"Description"];
+        }
+        if ([data[@"key"] isEqual:@"service"]){
+            self.detail.serviceId =[data[@"value"][@"ERExpenseserviceID"] intValue];
+            self.detail.service =data[@"value"][@"Description"];
+        }
     }
 }
 
@@ -62,7 +85,7 @@
             item[@"value"] = value;
         }
     }
-    NSLog(@"%@",part1);
+
     [self.tableView reloadData];
 }
 
@@ -103,7 +126,17 @@
             cell.text.enabled = false;
             cell.text.borderStyle=UITextBorderStyleNone;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else{
+            if ([item[@"keyboard"] isEqual:@"number"]){
+                cell.text.keyboardType = UIKeyboardTypeDecimalPad;
+            }else{
+                cell.text.keyboardType = UIKeyboardTypeDefault;
+            }
+            cell.text.tag  = indexPath.row;
+            [cell.text addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
+            cell.text.delegate = self;
         }
+        
         return cell;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -121,7 +154,16 @@
 
 }
 
+-(void)textChanged:(UITextField *)sender{
 
+    id item = [[_list objectAtIndex:0] objectAtIndex:sender.tag];
+    item[@"value"] = sender.text;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 #pragma mark - Table view delegate
 
@@ -158,10 +200,11 @@
     }
 }
 -(void)init_report_detail{
-    id part1=@[[[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Expense Date:",@"value":self.detail.expense_date,@"type":@"choose",@"key":@"expense_date"}],
-               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Purpose:",@"value":self.detail.purpose,@"type":@"choose",@"key":@"purpose"}],
-               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Service:",@"value":self.detail.service, @"type":@"choose",@"key":@"service"}],
-               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Amount:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.amount],@"type":@"",@"key":@"amount"}]
+    id part1=@[[[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Expense Date:",@"value":self.detail.expense_date,@"type":@"choose",@"key":@"expense_date",@"keyboard":@""}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Purpose:",@"value":self.detail.purpose,@"type":@"choose",@"key":@"purpose",@"keyboard":@""}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Service:",@"value":self.detail.service, @"type":@"choose",@"key":@"service",@"keyboard":@""}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Amount:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.amount],@"type":@"",@"key":@"amount",@"keyboard":@"number"}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Miles:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.mileage],@"type":@"",@"key":@"mileage",@"keyboard":@"number"}]
                ];
     
     id part2 = [[NSMutableArray alloc] init];

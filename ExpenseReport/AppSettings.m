@@ -15,7 +15,9 @@
 @synthesize isLogin = _isLogin;
 @synthesize userid=_userid;
 @synthesize list = _list;
-@synthesize user=_user;
+@synthesize relocatee = _relocatee;
+@synthesize personId =_personId;
+@synthesize relocateeId =_relocateeId;
 
 @synthesize local_data =_local_data;
 
@@ -26,8 +28,10 @@
     {
         _isLogin =[aDecoder decodeBoolForKey:@"isLogin"];
         _userid =[aDecoder decodeInt32ForKey:@"userid"];
+        _personId =[aDecoder decodeInt32ForKey:@"personid"];
+        _relocateeId =[aDecoder decodeInt32ForKey:@"relocateid"];
         _list =[aDecoder decodeObjectForKey:@"list"];
-        _user =[aDecoder decodeObjectForKey:@"user"];
+        _relocatee =[aDecoder decodeObjectForKey:@"relocatee"];
         _local_data =[aDecoder decodeObjectForKey:@"local_data"];
         _dict = [[NSMutableDictionary  alloc] init];
        
@@ -38,8 +42,10 @@
 {
     [aCoder encodeBool:_isLogin forKey:@"isLogin"];
     [aCoder encodeInt32:_userid forKey:@"userid"];
+    [aCoder encodeInt32:_personId forKey:@"personid"];
+    [aCoder encodeInt32:_relocateeId forKey:@"relocateid"];
     [aCoder encodeObject:_list forKey:@"list"];
-    [aCoder encodeObject:_user forKey:@"user"];
+    [aCoder encodeObject:_relocatee forKey:@"relocatee"];
     [aCoder encodeObject:_local_data forKey:@"local_data"];
 }
 
@@ -135,18 +141,22 @@
 -(AppDict *)dict{
     return [AppDict sharedDict];
 }
--(void)login:(id)relocatee{
-    self.user = relocatee;
+-(void)login:(id)relocatee userId:(int)userId personId:(int)personId{
+    self.relocateeId = relocatee;
     self.isLogin = YES;
-    self.userid = [relocatee[@"RelocateeID"] intValue];
+    self.relocateeId = [relocatee[@"RelocateeID"] intValue];
+    self.userid = userId;
+    self.personId = personId;
 
     [self save];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGIN object:nil];
     //[self load_init_data];
 }
 -(void)logout{
-    self.user = nil;
+    self.personId = nil;
     self.userid = 0;
+    self.personId =0;
+    self.relocateeId = 0;
     self.isLogin = NO;
     [self save];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGOUT object:nil];

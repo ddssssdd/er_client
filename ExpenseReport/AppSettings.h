@@ -19,7 +19,9 @@
 
 @property (nonatomic) BOOL isLogin;
 @property (nonatomic) int userid;
-@property (nonatomic,retain) id user;
+@property (nonatomic) int relocateeId;
+@property (nonatomic) int personId;
+@property (nonatomic,retain) id relocatee;
 
 @property (nonatomic,retain) NSMutableDictionary *local_data;
 @property (nonatomic,retain) NSMutableArray *list;
@@ -42,7 +44,7 @@
 -(HttpClient *)http;
 -(AppDict *)dict;
 
--(void)login:(id)relocatee;
+-(void)login:(id)relocatee userId:(int)userId personId:(int)personId;
 -(void)logout;
 -(void)load_init_data;
 

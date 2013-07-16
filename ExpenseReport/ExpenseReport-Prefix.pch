@@ -26,3 +26,4 @@
 
 #define MESSAGE_CHOOSE_DATE @"message:choose_date"
 #define MESSAGE_CHOOSE_ITEM @"message:choose_item"
+#define MESSAGE_SAVE_DETAIL @"message:save_report_detail"

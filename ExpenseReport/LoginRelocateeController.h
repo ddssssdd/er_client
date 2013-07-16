@@ -11,6 +11,6 @@
 @interface LoginRelocateeController : UITableViewController
 
 
--(void)loginWithPersonId:(int)personId;
+-(void)loginWithPersonId:(int)personId userId:(int)userId;
 
 @end

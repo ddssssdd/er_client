@@ -25,7 +25,7 @@
         if (callBack)
             callBack(result);
     }else{
-        NSString *url =[NSString stringWithFormat:@"ExpenseReports/purposes?relocateeId=%d",[AppSettings sharedSettings].userid];
+        NSString *url =[NSString stringWithFormat:@"ExpenseReports/purposes?relocateeId=%d",[AppSettings sharedSettings].relocateeId];
         [[AppSettings sharedSettings].http get:url block:^(id json) {
             if ([[AppSettings sharedSettings] isSuccess:json]){
                 [[AppSettings sharedSettings] saveJsonWith:EXPENSEPURPOSE data:json[@"result"]];
@@ -43,7 +43,7 @@
         if (callBack)
             callBack(result);
     }else{
-        NSString *url =[NSString stringWithFormat:@"ExpenseReports/services?relocateeId=%d",[AppSettings sharedSettings].userid];
+        NSString *url =[NSString stringWithFormat:@"ExpenseReports/services?relocateeId=%d",[AppSettings sharedSettings].relocateeId];
         [[AppSettings sharedSettings].http get:url block:^(id json) {
             if ([[AppSettings sharedSettings] isSuccess:json]){
                 [[AppSettings sharedSettings] saveJsonWith:EXPENSESERVCIE data:json[@"result"]];

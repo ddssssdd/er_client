@@ -107,7 +107,7 @@
      */
 }
 -(void)initData{
-    NSString *url =[NSString stringWithFormat:@"ExpenseReports/expense?relocateeId=%d&pageIndex=0&pageSize=1000",[AppSettings sharedSettings].userid];
+    NSString *url =[NSString stringWithFormat:@"ExpenseReports/expense?relocateeId=%d&pageIndex=0&pageSize=1000",[AppSettings sharedSettings].relocateeId];
     [[AppSettings sharedSettings].http get:url block:^(id json) {
         if ([[AppSettings sharedSettings] isSuccess:json]){
 
