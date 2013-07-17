@@ -34,8 +34,11 @@
     [super viewDidLoad];
     self.title = @"reports";
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Reports" image:[UIImage imageNamed:@"0051"] tag:0];
-    [self initData];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNew)];
+    self.refreshControl =[[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(initData) forControlEvents:UIControlEventValueChanged];
+    [self initData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,6 +46,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 #pragma mark - Table view data source
 
@@ -131,6 +136,7 @@
         [_list addObject:@{@"status":item,@"list":[list filteredArrayUsingPredicate:filter]}];
     
     }
+    [self.refreshControl endRefreshing];
     [self.tableView reloadData];
 }
 -(void)addNew{

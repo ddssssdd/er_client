@@ -53,7 +53,7 @@
     self = [super init];
     if (self){
         _dict = [[NSMutableDictionary  alloc] init];
-       
+       _token =@"";
     }
     return self;
 }
@@ -151,6 +151,9 @@
     [self save];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGIN object:nil];
     //[self load_init_data];
+    if (self.token && ![self.token isEqualToString:@""]){
+        [self registerDeviceToken:[[self.token stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<> "]] stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    }
 }
 -(void)logout{
     self.personId = nil;
@@ -198,5 +201,14 @@
     }else{
         return [obj floatValue];
     }
+}
+
+-(void)registerDeviceToken:(NSString *)token{
+    NSString *url =[NSString stringWithFormat:@"users/registerToken?userid=%d&token=%@&key=%@&relocateeId=%d",self.userid,token,APP_KEY,self.relocateeId];
+    [[self http] get:url block:^(id json) {
+        if ([self isSuccess:json]){
+            NSLog(@"Register device token success");
+        }
+    }];
 }
 @end

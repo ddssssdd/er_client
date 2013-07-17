@@ -15,6 +15,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert)];
+    if (launchOptions!=nil){
+        NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary !=nil){
+            
+            [self addMessageFromRemoteNotification:dictionary];
+        }
+    }
+
     
     //[[AppSettings sharedSettings] load_init_data];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -75,6 +84,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [UIApplication sharedApplication].applicationIconBadgeNumber =0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -83,6 +93,13 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    
+}
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    [AppSettings sharedSettings].token =[deviceToken description];
+    
+}
 /*
 // Optional UITabBarControllerDelegate method.
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
@@ -96,5 +113,9 @@
 {
 }
 */
+-(void)addMessageFromRemoteNotification:(NSDictionary *)payload{
+    NSLog(@"received notificaiton:%@",payload);
+    
+}
 
 @end

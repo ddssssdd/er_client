@@ -13,6 +13,7 @@
 
 @interface AppSettings : NSObject<NSCoding>{
     NSMutableDictionary *_dict;
+
     
 
 }
@@ -25,6 +26,7 @@
 
 @property (nonatomic,retain) NSMutableDictionary *local_data;
 @property (nonatomic,retain) NSMutableArray *list;
+@property (nonatomic) NSString *token;
 
 
 
@@ -54,4 +56,6 @@
 -(NSString *)getDateString:(id)obj;
 -(float)getFloat:(id)obj;
 
+
+-(void)registerDeviceToken:(NSString *)token;
 @end
