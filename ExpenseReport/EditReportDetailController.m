@@ -10,7 +10,7 @@
 #import "EditTableRowCell.h"
 #import "DatePickerController.h"
 #import "ItemsPickerController.h"
-@interface EditReportDetailController (){
+@interface EditReportDetailController ()<UIAlertViewDelegate>{
     id _list;
 }
 
@@ -105,10 +105,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0){
-        return [[_list objectAtIndex:section] count];
-    }else{
+    if (section==1){
         return [[_list objectAtIndex:section] count]+1;
+    }else{
+        return [[_list objectAtIndex:section] count];
     }
 }
 
@@ -138,7 +138,7 @@
         }
         
         return cell;
-    }else{
+    }else if (indexPath.section==1){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -148,6 +148,16 @@
             cell.textLabel.text = @"Add Note";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        
+        return cell;
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        id item = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        cell.textLabel.text = item;
         
         return cell;
     }
@@ -180,12 +190,16 @@
                 [[AppSettings sharedSettings].dict get_purposes:^(NSArray *list) {
                     ItemsPickerController *controller = [[ItemsPickerController alloc] initWithList:list];
                     controller.key = @"purpose";
+                    controller.selected = self.detail.purposeId;
+                    controller.fieldName = @"ERExpensePurposeID";
                     [self.navigationController pushViewController:controller animated:YES];
                 }];
             }else if ([item[@"key"] isEqual:@"service"]){
                 [[AppSettings sharedSettings].dict get_services:^(NSArray *list) {
                     ItemsPickerController *controller = [[ItemsPickerController alloc] initWithList:list];
                     controller.key = @"service";
+                    controller.selected = self.detail.serviceId;
+                    controller.fieldName = @"ERExpenseserviceID";                    
                     [self.navigationController pushViewController:controller animated:YES];
                 }];
             }
@@ -197,6 +211,15 @@
             controller.detail = [[ERReportDetail alloc] init];
             [self.navigationController pushViewController:controller animated:YES];
         }
+    }else if (indexPath.section==2){
+        [[[UIAlertView alloc] initWithTitle:APP_TITLE message:[NSString stringWithFormat:@"Are you sure to %@ drop this expense?",self.detail.isRemove?@"UNDO":@""] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:self.detail.isRemove?@"Undo":@"Drop", nil] show];
+    }
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1){
+        self.detail.isRemove = !self.detail.isRemove;
+        [self.navigationController popViewControllerAnimated:YES];
+        
     }
 }
 -(void)init_report_detail{
@@ -209,7 +232,12 @@
     
     id part2 = [[NSMutableArray alloc] init];
     
-    _list = @[part1,part2];
+    if (self.detail.detailId>0){
+        _list = @[part1,part2,@[self.detail.isRemove?@"Undo Drop":@"Drop expense"]];
+    }else{
+        _list = @[part1,part2];
+    }
+    
     [self.tableView reloadData];
 }
 

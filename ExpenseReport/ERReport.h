@@ -41,6 +41,7 @@
 @property (nonatomic) NSString *service;
 
 @property (nonatomic) NSString *detailTitle;
+@property (nonatomic) BOOL isRemove;
 
 -(id)initWithJSON:(id)json;
 

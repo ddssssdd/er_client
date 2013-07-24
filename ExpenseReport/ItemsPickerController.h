@@ -10,6 +10,8 @@
 
 @interface ItemsPickerController : UITableViewController
 @property (nonatomic) NSString *key;
+@property (nonatomic) int selected;
+@property (nonatomic) NSString *fieldName;
 
 -(id)initWithList:(NSArray *)list;
 @end

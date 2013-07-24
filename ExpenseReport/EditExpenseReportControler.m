@@ -11,10 +11,11 @@
 #import "DatePickerController.h"
 #import "EditReportDetailController.h"
 
-@interface EditExpenseReportControler (){
+@interface EditExpenseReportControler ()<UIAlertViewDelegate>{
     id _list;
     id _tempList;
     int _childCount;
+    int _menuIndex;
 }
 
 @end
@@ -49,56 +50,143 @@
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please input report name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return;
     }
-    NSString *url = [NSString stringWithFormat:@"ExpenseReports/addReport?userid=%d&relocateeId=%d&name=%@&beginDate=%@&endDate=%@&peopleCovered=%d&description=%@",
-                     [AppSettings sharedSettings].userid,
-                     [AppSettings sharedSettings].relocateeId,
-                     self.report.name,
-                     self.report.begin_date,
-                     self.report.end_date,
-                     self.report.people_covered,
-                     self.report.description];
-    [[AppSettings sharedSettings].http get:url block:^(id json) {
-        if ([[AppSettings sharedSettings] isSuccess:json]){
-            NSLog(@"%@",json);
-            ERReport *report = [[ERReport alloc] initWithJSON:json[@"result"]];
-            [self saveDetail:report];
-        }
-    }];
+    if (self.report.reportId==0){
+        // add new report;
+        NSString *url = [NSString stringWithFormat:@"ExpenseReports/addReport?userid=%d&relocateeId=%d&name=%@&beginDate=%@&endDate=%@&peopleCovered=%d&description=%@",
+                         [AppSettings sharedSettings].userid,
+                         [AppSettings sharedSettings].relocateeId,
+                         self.report.name,
+                         self.report.begin_date,
+                         self.report.end_date,
+                         self.report.people_covered,
+                         self.report.description];
+        [[AppSettings sharedSettings].http get:url block:^(id json) {
+            if ([[AppSettings sharedSettings] isSuccess:json]){
+                NSLog(@"%@",json);
+                ERReport *report = [[ERReport alloc] initWithJSON:json[@"result"]];
+                [self saveDetail:report isEdit:NO];
+            }
+        }];
+    }else{
+        //edit report
+        NSString *url = [NSString stringWithFormat:@"ExpenseReports/editReport?reportId=%d&userid=%d&name=%@&beginDate=%@&endDate=%@&peopleCovered=%d&description=%@",
+                         self.report.reportId,
+                         [AppSettings sharedSettings].userid,
+                         self.report.name,
+                         self.report.begin_date,
+                         self.report.end_date,
+                         self.report.people_covered,
+                         self.report.description];
+        [[AppSettings sharedSettings].http get:url block:^(id json) {
+            if ([[AppSettings sharedSettings] isSuccess:json]){
+                NSLog(@"%@",json);
+                [self saveDetail:self.report isEdit:YES];
+            }
+        }];
+    }
+    
     
 }
--(void)saveDetail:(ERReport *)report{
+-(void)saveDetail:(ERReport *)report isEdit:(BOOL)isEdit{
     if (!_tempList){
         _tempList = [[NSMutableArray alloc] init];
     }else{
         [_tempList removeAllObjects];
     }
     _childCount = [[_list objectAtIndex:1] count];
-    for (ERReportDetail *detail in [_list objectAtIndex:1]) {
-        NSString *url = [NSString stringWithFormat:@"ExpenseReports/addDetail?userid=%d&reportId=%d&purposeId=%d&serviceId=%d&date=%@&amount=%1.2f&miles=%1.2f",
-                         [AppSettings sharedSettings].userid,
-                         report.reportId,
-                         detail.purposeId,
-                         detail.serviceId,
-                         detail.expense_date,
-                         detail.amount,
-                         detail.mileage];
-        [[AppSettings sharedSettings].http get:url block:^(id json) {
-            if ([[AppSettings sharedSettings] isSuccess:json]){
-                [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
-                _childCount--;
-                if (_childCount==0){
-                    [[_list objectAtIndex:1] removeAllObjects];
-                    [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
-                    [self.tableView reloadData];
+    if (isEdit){
+        for (ERReportDetail *detail in [_list objectAtIndex:1]) {
+            if (detail.detailId==0){
+                NSString *url = [NSString stringWithFormat:@"ExpenseReports/addDetail?userid=%d&reportId=%d&purposeId=%d&serviceId=%d&date=%@&amount=%1.2f&miles=%1.2f",
+                                 [AppSettings sharedSettings].userid,
+                                 report.reportId,
+                                 detail.purposeId,
+                                 detail.serviceId,
+                                 detail.expense_date,
+                                 detail.amount,
+                                 detail.mileage];
+                [[AppSettings sharedSettings].http get:url block:^(id json) {
+                    if ([[AppSettings sharedSettings] isSuccess:json]){
+                        [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
+                        _childCount--;
+                        if (_childCount==0){
+                            [[_list objectAtIndex:1] removeAllObjects];
+                            [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
+                            [self.tableView reloadData];
+                        }
+                    }
+                }];
+            }else{
+                if (detail.isRemove){
+                    NSString *url = [NSString stringWithFormat:@"ExpenseReports/removeDetail?detailId=%d",detail.detailId];
+                    [[AppSettings sharedSettings].http get:url block:^(id json) {
+                        if ([[AppSettings sharedSettings] isSuccess:json]){
+                            _childCount--;
+                            if (_childCount==0){
+                                [[_list objectAtIndex:1] removeAllObjects];
+                                [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
+                                [self.tableView reloadData];
+                            }
+                        }
+                    }];
+                }else{
+                    NSString *url = [NSString stringWithFormat:@"ExpenseReports/editDetail?detailId=%d&userid=%d&purposeId=%d&serviceId=%d&date=%@&amount=%1.2f&miles=%1.2f",
+                                     detail.detailId,
+                                     [AppSettings sharedSettings].userid,
+                                     detail.purposeId,
+                                     detail.serviceId,
+                                     detail.expense_date,
+                                     detail.amount,
+                                     detail.mileage];
+                    [[AppSettings sharedSettings].http get:url block:^(id json) {
+                        if ([[AppSettings sharedSettings] isSuccess:json]){
+                            [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
+                            _childCount--;
+                            if (_childCount==0){
+                                [[_list objectAtIndex:1] removeAllObjects];
+                                [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
+                                [self.tableView reloadData];
+                            }
+                        }
+                    }];
                 }
             }
-        }];
+            
+        }
+    }else{
+        for (ERReportDetail *detail in [_list objectAtIndex:1]) {
+            
+            NSString *url = [NSString stringWithFormat:@"ExpenseReports/addDetail?userid=%d&reportId=%d&purposeId=%d&serviceId=%d&date=%@&amount=%1.2f&miles=%1.2f",
+                             [AppSettings sharedSettings].userid,
+                             report.reportId,
+                             detail.purposeId,
+                             detail.serviceId,
+                             detail.expense_date,
+                             detail.amount,
+                             detail.mileage];
+            [[AppSettings sharedSettings].http get:url block:^(id json) {
+                if ([[AppSettings sharedSettings] isSuccess:json]){
+                    [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
+                    _childCount--;
+                    if (_childCount==0){
+                        [[_list objectAtIndex:1] removeAllObjects];
+                        [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
+                        [self.tableView reloadData];
+                    }
+                }
+            }];
+        }
     }
+    
 }
 -(void)getDetail:(NSNotification *)notification
 {
     NSLog(@"%@",notification.object);
-    [[_list objectAtIndex:1] addObject:notification.object];
+    ERReportDetail *detail = notification.object;
+    if (detail.detailId==0){
+        [[_list objectAtIndex:1] addObject:notification.object];
+    }
+    
     [self.tableView reloadData];
 }
 -(void)dateChoosed:(NSNotification *)notification{
@@ -142,10 +230,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0){
-        return [[_list objectAtIndex:section] count];
-    }else{
+    if (section==1){
         return [[_list objectAtIndex:section] count]+1;
+    }else{
+        return [[_list objectAtIndex:section] count];
     }
     
 }
@@ -175,7 +263,7 @@
             cell.text.delegate = self;
         }
         return cell;
-    }else{
+    }else if (indexPath.section==1){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
@@ -192,8 +280,17 @@
         }
         
         return cell;
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+            
+        }
+        id item = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        cell.textLabel.text = item;
+        return cell;
     }
-    
+
 }
 -(void)textChanged:(UITextField *)sender{
     
@@ -218,10 +315,24 @@
             [self.navigationController pushViewController:controller animated:YES];
         }
     }else if (indexPath.section==1){
+        EditReportDetailController *controller = [[EditReportDetailController alloc] initWithReport:self.report];
         if (indexPath.row==[[_list objectAtIndex:1] count]){
-            EditReportDetailController *controller = [[EditReportDetailController alloc] initWithReport:self.report];
             controller.detail = [[ERReportDetail alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+        }else{
+            controller.detail = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            
+        }
+        
+        [self.navigationController pushViewController:controller animated:YES];
+        
+    }else if (indexPath.section==2){
+        _menuIndex = indexPath.row;
+        if (indexPath.row==0){
+            UIAlertView *view = [[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Are you sure to submit this report?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+            [view show];
+        }else if (indexPath.row==1){
+            UIAlertView *view = [[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Are you sure to drop this report?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+            [view show];
         }
     }
    
@@ -237,7 +348,7 @@
                [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Description:",@"value":self.report.description,@"type":@"",@"key":@"description",@"keyboard":@""}]];
     
     id part2 = [[NSMutableArray alloc] init];
-    
+    id part3 =@[@"Submit Report",@"Drop Report"];
     if (self.report.reportId>0){
         NSString *url =[NSString stringWithFormat:@"ExpenseReports/details?reportId=%d",self.report.reportId];
         
@@ -247,17 +358,34 @@
                     ERReportDetail *detail = [[ERReportDetail alloc] initWithJSON:item];
                     [part2 addObject:detail];
                 }
-                _list = @[part1,part2];
+                _list = @[part1,part2,part3];
                 [self.tableView reloadData];
             }
         }];
     }else{
-        _list = @[part1,part2];
+        _list = @[part1,part2,part3];
         [self.tableView reloadData];
 
     }
     
     
 }
-
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    //NSLog(@"%d=%d",_menuIndex,buttonIndex);
+    if (buttonIndex==1){
+        if (_menuIndex==0){
+            //submit
+            [self.navigationController popViewControllerAnimated:YES];
+        }else if (_menuIndex==1){
+            //drop
+            NSString *url = [NSString stringWithFormat:@"ExpenseReports/removeReport?reportId=%d",self.report.reportId];
+            [[AppSettings sharedSettings].http get:url block:^(id json) {
+                if ([[AppSettings sharedSettings] isSuccess:json]){
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_REPORT_DROP object:self.report];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }
+    }
+}
 @end

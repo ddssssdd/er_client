@@ -11,6 +11,7 @@
 @interface ItemsPickerController (){
     NSArray *_list;
     id _selectedItem;
+    UITableViewCell *_currentCell;
 }
 
 @end
@@ -68,7 +69,14 @@
     }
     id item = [_list objectAtIndex:indexPath.row];
     cell.textLabel.text = item[@"Description"];
-    cell.accessoryType =UITableViewCellAccessoryNone;
+    if (self.selected==[item[self.fieldName] intValue]){
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        _selectedItem = item;
+        _currentCell = cell;
+    }else{
+        cell.accessoryType =UITableViewCellAccessoryNone;
+    }
+    
     
     return cell;
 }
@@ -78,14 +86,24 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    _selectedItem =[_list objectAtIndex:indexPath.row];
+   
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType =UITableViewCellAccessoryCheckmark;
+    if (cell.accessoryType==UITableViewCellAccessoryCheckmark){
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        _selectedItem =nil;
+        _currentCell = nil;
+        self.selected =0;
+    }else{
+        if (_currentCell){
+            _currentCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        cell.accessoryType =UITableViewCellAccessoryCheckmark;
+        _selectedItem =[_list objectAtIndex:indexPath.row];
+        _currentCell = cell;
+        self.selected = _selectedItem[self.fieldName];
+    }
 }
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
-    _selectedItem = Nil;
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType =UITableViewCellAccessoryNone;
-}
+
 
 @end
