@@ -10,6 +10,7 @@
 #import "EditTableRowCell.h"
 #import "DatePickerController.h"
 #import "ItemsPickerController.h"
+#import "NoteViewController.h"
 @interface EditReportDetailController ()<UIAlertViewDelegate>{
     id _list;
 }
@@ -185,6 +186,7 @@
             if ([item[@"key"] isEqual:@"expense_date"]){
                 DatePickerController *controller = [[DatePickerController alloc] init];
                 controller.key = item[@"key"];
+                controller.currentDate = item[@"value"];
                 [self.navigationController pushViewController:controller animated:YES];
             }else if ([item[@"key"] isEqual:@"purpose"]){
                 [[AppSettings sharedSettings].dict get_purposes:^(NSArray *list) {
@@ -207,8 +209,11 @@
         }
     }else if (indexPath.section==1){
         if (indexPath.row==[[_list objectAtIndex:1] count]){
+            /*
             EditReportDetailController *controller = [[EditReportDetailController alloc] initWithReport:self.report];
-            controller.detail = [[ERReportDetail alloc] init];
+            controller.detail = [[ERReportDetail alloc] init];*/
+            NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+        
             [self.navigationController pushViewController:controller animated:YES];
         }
     }else if (indexPath.section==2){

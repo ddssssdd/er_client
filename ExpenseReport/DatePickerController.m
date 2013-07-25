@@ -27,6 +27,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSDate *_tempDate;
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = @"yyyy-MM-dd";
+    if ([self.currentDate isEqualToString:@""]){
+        _tempDate = [NSDate date];
+    }else{
+        
+        
+
+        _tempDate =[df dateFromString:self.currentDate];
+    }
 	datelabel = [[UILabel alloc] init];
     datelabel.frame = CGRectMake(10, 20, 300, 40);
     datelabel.backgroundColor = [UIColor clearColor];
@@ -35,10 +46,10 @@
     datelabel.textAlignment = NSTextAlignmentCenter;
     
     
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    df.dateStyle = NSDateFormatterMediumStyle;
+
+
     datelabel.text = [NSString stringWithFormat:@"%@",
-                      [df stringFromDate:[NSDate date]]];
+                      [df stringFromDate:_tempDate]];
 
     [self.view addSubview:datelabel];
     
@@ -46,7 +57,7 @@
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 70, 325, 300)];
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.hidden = NO;
-    datePicker.date = [NSDate date];
+    datePicker.date = _tempDate;
     
     [datePicker addTarget:self
                    action:@selector(LabelChange:)
@@ -65,7 +76,8 @@
 }
 - (void)LabelChange:(id)sender{
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    df.dateStyle = NSDateFormatterMediumStyle;
+    //df.dateStyle = NSDateFormatterMediumStyle;
+    df.dateFormat = @"yyyy-MM-dd";
     datelabel.text = [NSString stringWithFormat:@"%@",
                       [df stringFromDate:datePicker.date]];
 }

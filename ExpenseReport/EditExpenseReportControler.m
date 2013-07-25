@@ -277,6 +277,16 @@
             ERReportDetail *item = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",item.purpose,item.service];
             cell.detailTextLabel.text =[NSString stringWithFormat:@"%1.2f",item.amount];
+            if (item.detailId==0){
+                cell.backgroundColor = [UIColor colorWithRed:0 green:255 blue:0 alpha:0];
+            }else{
+                if (item.isRemove){
+                    cell.backgroundColor = [UIColor colorWithRed:255 green:0 blue:0 alpha:0];
+                }else{
+                    cell.backgroundColor = [UIColor colorWithRed:0 green:0 blue:255 alpha:0];
+                }
+            }
+        
         }
         
         return cell;
@@ -312,6 +322,7 @@
         if ([item[@"type"] isEqual:@"date"]){
             DatePickerController *controller = [[DatePickerController alloc] init];
             controller.key = item[@"key"];
+            controller.currentDate = item[@"value"];
             [self.navigationController pushViewController:controller animated:YES];
         }
     }else if (indexPath.section==1){

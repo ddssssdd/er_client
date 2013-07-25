@@ -68,6 +68,8 @@
 		E2F08BC91782BAEF00055746 /* EditTableRowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F08BC81782BAEF00055746 /* EditTableRowCell.m */; };
 		E2F08BCB1782BB0300055746 /* EditTableRowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2F08BCA1782BB0300055746 /* EditTableRowCell.xib */; };
 		E2F08BCE1782CA6700055746 /* DatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F08BCD1782CA6700055746 /* DatePickerController.m */; };
+		E2F0BA1A17A0FBDB00474489 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F0BA1817A0FBDB00474489 /* NoteViewController.m */; };
+		E2F0BA1B17A0FBDB00474489 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2F0BA1917A0FBDB00474489 /* NoteViewController.xib */; };
 		E2F5CDC0178AAA4400D20CC7 /* EditReportDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F5CDBF178AAA4400D20CC7 /* EditReportDetailController.m */; };
 		E2F5CDC3178AAFF800D20CC7 /* ItemsPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F5CDC2178AAFF800D20CC7 /* ItemsPickerController.m */; };
 /* End PBXBuildFile section */
@@ -170,6 +172,9 @@
 		E2F08BCA1782BB0300055746 /* EditTableRowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditTableRowCell.xib; sourceTree = "<group>"; };
 		E2F08BCC1782CA6700055746 /* DatePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerController.h; sourceTree = "<group>"; };
 		E2F08BCD1782CA6700055746 /* DatePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerController.m; sourceTree = "<group>"; };
+		E2F0BA1717A0FBDB00474489 /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
+		E2F0BA1817A0FBDB00474489 /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
+		E2F0BA1917A0FBDB00474489 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
 		E2F5CDBE178AAA4400D20CC7 /* EditReportDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReportDetailController.h; sourceTree = "<group>"; };
 		E2F5CDBF178AAA4400D20CC7 /* EditReportDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReportDetailController.m; sourceTree = "<group>"; };
 		E2F5CDC1178AAFF800D20CC7 /* ItemsPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsPickerController.h; sourceTree = "<group>"; };
@@ -425,6 +430,9 @@
 				E2F5CDBF178AAA4400D20CC7 /* EditReportDetailController.m */,
 				E2F5CDC1178AAFF800D20CC7 /* ItemsPickerController.h */,
 				E2F5CDC2178AAFF800D20CC7 /* ItemsPickerController.m */,
+				E2F0BA1717A0FBDB00474489 /* NoteViewController.h */,
+				E2F0BA1817A0FBDB00474489 /* NoteViewController.m */,
+				E2F0BA1917A0FBDB00474489 /* NoteViewController.xib */,
 			);
 			name = ExpenseReports;
 			sourceTree = "<group>";
@@ -502,6 +510,7 @@
 				E245DF191782805B00899BE2 /* ExpenseCell.xib in Resources */,
 				E245DF1E1782AC1200899BE2 /* EditExpenseReportControler.xib in Resources */,
 				E2F08BCB1782BB0300055746 /* EditTableRowCell.xib in Resources */,
+				E2F0BA1B17A0FBDB00474489 /* NoteViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +555,7 @@
 				E2F08BCE1782CA6700055746 /* DatePickerController.m in Sources */,
 				E2F5CDC0178AAA4400D20CC7 /* EditReportDetailController.m in Sources */,
 				E2F5CDC3178AAFF800D20CC7 /* ItemsPickerController.m in Sources */,
+				E2F0BA1A17A0FBDB00474489 /* NoteViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
