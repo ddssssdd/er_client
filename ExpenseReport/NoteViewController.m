@@ -7,6 +7,7 @@
 //
 
 #import "NoteViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface NoteViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -28,7 +29,10 @@
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
     [self.textNote becomeFirstResponder];
-    self.textNote.text=@"hello";
+    self.textNote.text=self.receipt.note;
+    if (![self.receipt.filename isEqualToString:@""]){
+        [self.image setImageWithURL:[NSURL URLWithString:self.receipt.filename]];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,7 +62,11 @@
     }
 }
 -(void)save{
-        [self.textNote resignFirstResponder];
+    [self.textNote resignFirstResponder];
+    self.receipt.note = self.textNote.text;
+    self.receipt.image = self.image.image;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_SAVE_RECEIPT object:self.receipt];
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 - (UIImage *)scaleToSize:(UIImage *)img size:(CGSize)size{

@@ -11,6 +11,7 @@
 #import "DatePickerController.h"
 #import "ItemsPickerController.h"
 #import "NoteViewController.h"
+#import "UIImageView+AFNetworking.h"
 @interface EditReportDetailController ()<UIAlertViewDelegate>{
     id _list;
 }
@@ -36,6 +37,7 @@
     [self init_report_detail];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemsChoosed:) name:MESSAGE_CHOOSE_ITEM object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiptSave:) name:MESSAGE_SAVE_RECEIPT object:nil];
 }
 -(void)save{
     id part1 = [_list objectAtIndex:0];
@@ -56,6 +58,13 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_SAVE_DETAIL object:self.detail];
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)receiptSave:(NSNotification *)notification{
+    ExpenseReceipt *receipt = notification.object;
+    if (receipt.receiptId==0){
+        [[_list objectAtIndex:1] addObject:receipt];
+    }
+    [self.tableView reloadData];
 }
 -(void)dateChoosed:(NSNotification *)notification{
     id data = notification.userInfo;
@@ -142,12 +151,23 @@
     }else if (indexPath.section==1){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
         
         if (indexPath.row==[[_list objectAtIndex:indexPath.section] count]){
             cell.textLabel.text = @"Add Note";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else{
+            ExpenseReceipt *receipt =[[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            cell.textLabel.text = receipt.note;
+            cell.detailTextLabel.text = receipt.filename;
+            if (![receipt.filename isEqualToString:@""]){
+                [cell.imageView setImageWithURL:[NSURL URLWithString:receipt.filename]];
+            }else{
+                if (receipt.receiptId==0 && receipt.image!=nil){
+                    cell.imageView.image = receipt.image;
+                }
+            }
         }
         
         return cell;
@@ -209,11 +229,13 @@
         }
     }else if (indexPath.section==1){
         if (indexPath.row==[[_list objectAtIndex:1] count]){
-            /*
-            EditReportDetailController *controller = [[EditReportDetailController alloc] initWithReport:self.report];
-            controller.detail = [[ERReportDetail alloc] init];*/
+            
             NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-        
+            controller.receipt =[[ExpenseReceipt alloc] init];
+            [self.navigationController pushViewController:controller animated:YES];
+        }else{
+            NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+            controller.receipt =[[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             [self.navigationController pushViewController:controller animated:YES];
         }
     }else if (indexPath.section==2){
@@ -235,15 +257,27 @@
                [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Miles:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.mileage],@"type":@"",@"key":@"mileage",@"keyboard":@"number"}]
                ];
     
-    id part2 = [[NSMutableArray alloc] init];
+
     
     if (self.detail.detailId>0){
-        _list = @[part1,part2,@[self.detail.isRemove?@"Undo Drop":@"Drop expense"]];
+        NSString *url = [NSString stringWithFormat:@"ExpenseReports/receipts?reportId=%d&detailId=%d",self.report.reportId,self.detail.detailId];
+        [[AppSettings sharedSettings].http get:url block:^(id json) {
+            if ([[AppSettings sharedSettings] isSuccess:json]){
+                for (id item in json[@"result"]) {
+                    ExpenseReceipt *receipt = [[ExpenseReceipt alloc] initWithJSON:item];
+                    [self.detail.items addObject:receipt];
+                }
+            }
+            _list = @[part1,self.detail.items,@[self.detail.isRemove?@"Undo Drop":@"Drop expense"]];
+            [self.tableView reloadData];
+        }];
+        
     }else{
-        _list = @[part1,part2];
+        _list = @[part1,self.detail.items];
+        [self.tableView reloadData];
     }
     
-    [self.tableView reloadData];
+    
 }
 
 @end

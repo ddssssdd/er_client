@@ -7,6 +7,7 @@
 //
 
 #import "ERReport.h"
+#import "AFImageRequestOperation.h"
 
 @implementation ERReport
 
@@ -71,6 +72,7 @@
         self.paidbyco=0;
         self.mileage =0.0f;
         self.expenseId =0;
+        self.items =[[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -89,6 +91,7 @@
         self.paidbyco =[json[@"PaidByCo"] intValue];
         self.expenseId = [json[@"ExpenseID"] intValue];
         self.mileage = [json[@"Mileage"] floatValue];
+        self.items =[[NSMutableArray alloc] init];
         [[AppSettings sharedSettings].dict get_purposes:^(NSArray *list) {
 
             int index = [list indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
@@ -134,5 +137,46 @@
     }
     return self;
 }
+
+@end
+@implementation ExpenseReceipt
+
+-(id)init{
+    self = [super init];
+    if (self){
+        self.detailId =0;
+        self.reportId =0;
+        self.receiptId =0;
+        self.note=@"";
+        self.image=nil;
+        self.filename =@"";
+    }
+    return self;
+}
+-(id)initWithJSON:(id)json{
+    self =[super init];
+    if (self){
+        self.receiptId = [json[@"ExpenseReportReceiptsID"] intValue];
+        self.detailId = [json[@"ExpenseReportDetailID"] intValue];
+        self.reportId = [json[@"ExpenseReportID"] intValue];
+
+        self.note = [[AppSettings sharedSettings] getString:json[@"Notes"]];
+        self.filename =[[AppSettings sharedSettings] getString:json[@"FileName"]];
+        self.isRemove =NO;
+        /*
+        if (![self.filename isEqualToString:@""]){
+            NSURL *url = [NSURL URLWithString:self.filename];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            AFImageRequestOperation *operation =[AFImageRequestOperation imageRequestOperationWithRequest:request success:^(UIImage *image) {
+                self.image = image;
+            }];
+            [operation start];
+        }
+         */
+    }
+    return self;
+}
+
+
 
 @end

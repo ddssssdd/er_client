@@ -42,6 +42,7 @@
 
 @property (nonatomic) NSString *detailTitle;
 @property (nonatomic) BOOL isRemove;
+@property (nonatomic) NSMutableArray *items;
 
 -(id)initWithJSON:(id)json;
 
@@ -59,4 +60,15 @@
 
 -(id)initWithJSON:(id)json;
 
+@end
+@interface ExpenseReceipt : NSObject
+@property (nonatomic) int receiptId;
+@property (nonatomic) int detailId;
+@property (nonatomic) int reportId;
+@property (nonatomic) NSString *note;
+@property (nonatomic) NSString *filename;
+@property (nonatomic) UIImage *image;
+@property (nonatomic) BOOL isRemove;
+
+-(id)initWithJSON:(id)json;
 @end

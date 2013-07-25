@@ -87,6 +87,36 @@
     
     
 }
+-(void)saveReceipts:(ERReportDetail *)detail items:(NSMutableArray *)items isEdit:(BOOL)isEdit{
+    for (ExpenseReceipt *receipt in items) {
+        if (receipt.receiptId==0){
+            if (receipt.image==nil){
+                //without image
+                NSString *url = [NSString stringWithFormat:@"ExpenseReports/addReceiptNote?userid=%d&reportId=%d&detailId=%d&note=%@",
+                                 [AppSettings sharedSettings].userid,
+                                 self.report.reportId,
+                                 detail.detailId,
+                                 receipt.note];
+                [[AppSettings sharedSettings].http get:url block:^(id json) {
+                    
+                }];
+            }else{
+                //with image;
+            }
+            
+        }else{
+            if (receipt.isRemove){
+                NSString *url = [NSString stringWithFormat:@"ExpenseReport/removeReceipt?receiptId=%d",receipt.receiptId];
+                [[AppSettings sharedSettings].http get:url block:^(id json) {
+                    
+                }];
+            }else{
+                //edit receipt;
+                //not implement yet.
+            }
+        }
+    }
+}
 -(void)saveDetail:(ERReport *)report isEdit:(BOOL)isEdit{
     if (!_tempList){
         _tempList = [[NSMutableArray alloc] init];
@@ -107,7 +137,9 @@
                                  detail.mileage];
                 [[AppSettings sharedSettings].http get:url block:^(id json) {
                     if ([[AppSettings sharedSettings] isSuccess:json]){
-                        [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
+                        ERReportDetail *temp =[[ERReportDetail alloc] initWithJSON:json[@"result"]];
+                        [self saveReceipts:temp items:detail.items isEdit:NO];
+                        [_tempList addObject:temp];
                         _childCount--;
                         if (_childCount==0){
                             [[_list objectAtIndex:1] removeAllObjects];
@@ -140,7 +172,9 @@
                                      detail.mileage];
                     [[AppSettings sharedSettings].http get:url block:^(id json) {
                         if ([[AppSettings sharedSettings] isSuccess:json]){
-                            [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
+                            ERReportDetail *temp =[[ERReportDetail alloc] initWithJSON:json[@"result"]];
+                            [self saveReceipts:temp items:detail.items isEdit:YES];
+                            [_tempList addObject:temp];
                             _childCount--;
                             if (_childCount==0){
                                 [[_list objectAtIndex:1] removeAllObjects];

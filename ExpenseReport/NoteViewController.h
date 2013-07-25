@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ERReport.h"
 
 @interface NoteViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *textNote;
 
-
+@property (nonatomic) ExpenseReceipt *receipt;
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @end
