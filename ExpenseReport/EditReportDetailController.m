@@ -61,7 +61,9 @@
 }
 -(void)receiptSave:(NSNotification *)notification{
     ExpenseReceipt *receipt = notification.object;
+    
     if (receipt.receiptId==0){
+        
         [[_list objectAtIndex:1] addObject:receipt];
     }
     [self.tableView reloadData];
@@ -161,10 +163,11 @@
             ExpenseReceipt *receipt =[[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             cell.textLabel.text = receipt.note;
             cell.detailTextLabel.text = receipt.filename;
+            cell.imageView.image=nil;
             if (![receipt.filename isEqualToString:@""]){
                 [cell.imageView setImageWithURL:[NSURL URLWithString:receipt.filename]];
             }else{
-                if (receipt.receiptId==0 && receipt.image!=nil){
+                if (receipt.image!=nil){
                     cell.imageView.image = receipt.image;
                 }
             }

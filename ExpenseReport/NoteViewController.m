@@ -32,6 +32,10 @@
     self.textNote.text=self.receipt.note;
     if (![self.receipt.filename isEqualToString:@""]){
         [self.image setImageWithURL:[NSURL URLWithString:self.receipt.filename]];
+    }else{
+        if (self.receipt.image!=nil){
+            self.image.image = self.receipt.image;
+        }
     }
 }
 
@@ -59,12 +63,30 @@
         [self pickImage];
     }else if(buttonIndex==2){
         self.image.image = nil;
+        self.receipt.isImageEdit = YES;
+        self.receipt.filename=@"";
     }
 }
 -(void)save{
     [self.textNote resignFirstResponder];
-    self.receipt.note = self.textNote.text;
-    self.receipt.image = self.image.image;
+    if (self.receipt.receiptId>0){
+        if (![self.receipt.note isEqualToString:self.textNote.text]){
+            self.receipt.isNoteEdit = YES;
+            self.receipt.note = self.textNote.text;
+        }
+        if (self.receipt.isImageEdit){
+            self.receipt.image = self.image.image;
+        }
+    }else{
+        self.receipt.isImageEdit = YES;
+        self.receipt.isNoteEdit = YES;
+        self.receipt.image = self.image.image;
+        self.receipt.note = self.textNote.text;
+    }
+    
+    
+    
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_SAVE_RECEIPT object:self.receipt];
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -97,6 +119,7 @@
 {
     self.image.image =[info valueForKey:UIImagePickerControllerOriginalImage];
     [self dismissViewControllerAnimated:YES completion:nil];
+    self.receipt.isImageEdit=YES;
    
 }
 

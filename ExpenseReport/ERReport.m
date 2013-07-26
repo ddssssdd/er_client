@@ -150,6 +150,8 @@
         self.note=@"";
         self.image=nil;
         self.filename =@"";
+        self.isImageEdit = NO;
+        self.isNoteEdit = NO;
     }
     return self;
 }
@@ -163,6 +165,8 @@
         self.note = [[AppSettings sharedSettings] getString:json[@"Notes"]];
         self.filename =[[AppSettings sharedSettings] getString:json[@"FileName"]];
         self.isRemove =NO;
+        self.isImageEdit = NO;
+        self.isNoteEdit = NO;
         /*
         if (![self.filename isEqualToString:@""]){
             NSURL *url = [NSURL URLWithString:self.filename];

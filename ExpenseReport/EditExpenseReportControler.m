@@ -10,7 +10,8 @@
 #import "EditTableRowCell.h"
 #import "DatePickerController.h"
 #import "EditReportDetailController.h"
-
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
 @interface EditExpenseReportControler ()<UIAlertViewDelegate>{
     id _list;
     id _tempList;
@@ -79,7 +80,6 @@
                          self.report.description];
         [[AppSettings sharedSettings].http get:url block:^(id json) {
             if ([[AppSettings sharedSettings] isSuccess:json]){
-                NSLog(@"%@",json);
                 [self saveDetail:self.report isEdit:YES];
             }
         }];
@@ -87,7 +87,7 @@
     
     
 }
--(void)saveReceipts:(ERReportDetail *)detail items:(NSMutableArray *)items isEdit:(BOOL)isEdit{
+-(void)saveReceipts_old:(ERReportDetail *)detail items:(NSMutableArray *)items isEdit:(BOOL)isEdit{
     for (ExpenseReceipt *receipt in items) {
         if (receipt.receiptId==0){
             if (receipt.image==nil){
@@ -102,6 +102,35 @@
                 }];
             }else{
                 //with image;
+                NSString *url =[NSString stringWithFormat:@"ExpenseReports/addReceiptNoteAndImage"];
+                
+                NSData *imageData = UIImagePNGRepresentation(receipt.image);
+                AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:ServerUrl]];
+                NSURLRequest *request = [client multipartFormRequestWithMethod:@"POST" path:url parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData> formData) {
+                    
+                    [formData appendPartWithFileData:imageData name:@"userfile" fileName:@"upload.png" mimeType:@"image/png"];
+                    [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",self.report.reportId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"reportId"];
+                    [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",detail.detailId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"detailId"];
+                    [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",[AppSettings sharedSettings].userid] dataUsingEncoding:NSUTF8StringEncoding]  name:@"userId"];
+                    [formData appendPartWithFormData:[receipt.note dataUsingEncoding:NSUTF8StringEncoding]  name:@"note"];
+                    
+                    
+                    
+                }];
+                AFHTTPRequestOperation *operation=[[AFHTTPRequestOperation alloc] initWithRequest:request];
+                [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    NSError *error = nil;
+                    id jsonResult =[NSJSONSerialization JSONObjectWithData:operation.responseData options:NSJSONReadingMutableContainers error:&error];
+                    NSLog(@"%@",jsonResult);
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Access server error:%@,because %@",error,operation.request);
+                    
+                    
+                }];
+                NSOperationQueue *queue=[[NSOperationQueue alloc] init];
+                [queue addOperation:operation];
             }
             
         }else{
@@ -114,6 +143,66 @@
                 //edit receipt;
                 //not implement yet.
             }
+        }
+    }
+}
+-(void)saveReceipts:(ERReportDetail *)detail items:(NSMutableArray *)items isEdit:(BOOL)isEdit{
+    for (ExpenseReceipt *receipt in items) {
+        if (receipt.isRemove && receipt.receiptId>0){
+            NSString *url = [NSString stringWithFormat:@"ExpenseReport/removeReceipt?receiptId=%d",receipt.receiptId];
+            [[AppSettings sharedSettings].http get:url block:^(id json) {
+                
+            }];
+            continue;
+        }
+        if (receipt.isNoteEdit==NO && receipt.isImageEdit==NO){
+            continue;
+        }
+        if (receipt.image==nil){
+            //without image
+            NSString *url = [NSString stringWithFormat:@"ExpenseReports/addReceiptNote?userid=%d&reportId=%d&detailId=%d&note=%@&receiptId=%d&imageEdit=%d",
+                             [AppSettings sharedSettings].userid,
+                             self.report.reportId,
+                             detail.detailId,
+                             receipt.note,
+                             receipt.receiptId,
+                             receipt.isImageEdit?1:0];
+            [[AppSettings sharedSettings].http get:url block:^(id json) {
+                
+            }];
+        }else{
+            //with image;
+            NSString *url =[NSString stringWithFormat:@"ExpenseReports/addReceiptNoteAndImage"];
+            
+            NSData *imageData = UIImagePNGRepresentation(receipt.image);
+            AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:ServerUrl]];
+            NSURLRequest *request = [client multipartFormRequestWithMethod:@"POST" path:url parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData> formData) {
+                
+                [formData appendPartWithFileData:imageData name:@"userfile" fileName:@"upload.png" mimeType:@"image/png"];
+                [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",self.report.reportId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"reportId"];
+                [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",detail.detailId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"detailId"];
+                [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",receipt.receiptId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"receiptId"];
+                [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",[AppSettings sharedSettings].userid] dataUsingEncoding:NSUTF8StringEncoding]  name:@"userId"];
+                [formData appendPartWithFormData:[receipt.note dataUsingEncoding:NSUTF8StringEncoding]  name:@"note"];
+                [formData appendPartWithFormData:[receipt.isImageEdit?@"1":@"0" dataUsingEncoding:NSUTF8StringEncoding]  name:@"imageEdit"];
+                
+                
+                
+            }];
+            AFHTTPRequestOperation *operation=[[AFHTTPRequestOperation alloc] initWithRequest:request];
+            [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                NSError *error = nil;
+                id jsonResult =[NSJSONSerialization JSONObjectWithData:operation.responseData options:NSJSONReadingMutableContainers error:&error];
+                NSLog(@"%@",jsonResult);
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Access server error:%@,because %@",error,operation.request);
+                
+                
+            }];
+            NSOperationQueue *queue=[[NSOperationQueue alloc] init];
+            [queue addOperation:operation];
         }
     }
 }
@@ -142,9 +231,7 @@
                         [_tempList addObject:temp];
                         _childCount--;
                         if (_childCount==0){
-                            [[_list objectAtIndex:1] removeAllObjects];
-                            [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
-                            [self.tableView reloadData];
+                            [self updateExpense:_tempList];
                         }
                     }
                 }];
@@ -155,9 +242,7 @@
                         if ([[AppSettings sharedSettings] isSuccess:json]){
                             _childCount--;
                             if (_childCount==0){
-                                [[_list objectAtIndex:1] removeAllObjects];
-                                [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
-                                [self.tableView reloadData];
+                                [self updateExpense:_tempList];
                             }
                         }
                     }];
@@ -177,9 +262,7 @@
                             [_tempList addObject:temp];
                             _childCount--;
                             if (_childCount==0){
-                                [[_list objectAtIndex:1] removeAllObjects];
-                                [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
-                                [self.tableView reloadData];
+                                [self updateExpense:_tempList];
                             }
                         }
                     }];
@@ -203,15 +286,18 @@
                     [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
                     _childCount--;
                     if (_childCount==0){
-                        [[_list objectAtIndex:1] removeAllObjects];
-                        [[_list objectAtIndex:1] addObjectsFromArray:_tempList];
-                        [self.tableView reloadData];
+                        [self updateExpense:_tempList];
                     }
                 }
             }];
         }
     }
     
+}
+-(void)updateExpense:(NSArray *)list{
+    [[_list objectAtIndex:1] removeAllObjects];
+    [[_list objectAtIndex:1] addObjectsFromArray:list];
+    [self.tableView reloadData];
 }
 -(void)getDetail:(NSNotification *)notification
 {
