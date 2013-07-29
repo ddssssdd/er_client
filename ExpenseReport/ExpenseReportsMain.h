@@ -7,9 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ReportsViewController.h"
+#import "ExpenseController.h"
+#import "ProfileController.h"
 
 @interface ExpenseReportsMain : NSObject
-
+@property (nonatomic) ReportsViewController *reports;
+@property (nonatomic) ExpenseController *expense;
+@property (nonatomic) ProfileController *profile;
 -(NSArray *)createControllers;
 
 @end

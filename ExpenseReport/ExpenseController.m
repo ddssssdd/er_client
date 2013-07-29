@@ -32,8 +32,7 @@
 {
     [super viewDidLoad];
 
-    self.title = @"Expense";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Expense" image:[UIImage imageNamed:@"0099"] tag:0]; 
+     
     [self initData];
 }
 
@@ -129,6 +128,8 @@
             [_summaryList addObject:@{@"key":@"Total Records:",@"value":[NSString stringWithFormat:@"%@",json[@"result"][@"count"]]}];
              [_summaryList addObject:@{@"key":@"Grand total:",@"value":[NSString stringWithFormat:@"%@ USD",json[@"result"][@"amount"]]}];
               [_summaryList addObject:@{@"key":@"NetCheck Total:",@"value":[NSString stringWithFormat:@"%@ USD",json[@"result"][@"netcheck"]]}];
+
+            [[AppSettings sharedSettings] saveJsonWith:EXPENSE_SUMMARY_LIST data:_summaryList];
             [self.tableView reloadData];
         }
     }];

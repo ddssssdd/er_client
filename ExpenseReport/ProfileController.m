@@ -26,9 +26,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Profile";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"0012"] tag:0];
+    
     self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleDone  target:self action:@selector(logout)];
+    [self initData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,6 +39,10 @@
 
 -(void)logout{
     [[AppSettings sharedSettings] logout];
+}
+
+-(void)initData{
+    
 }
 
 @end

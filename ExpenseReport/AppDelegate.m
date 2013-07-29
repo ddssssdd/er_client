@@ -55,7 +55,9 @@
      */
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = [[[ExpenseReportsMain alloc] init] createControllers];
+
     self.window.rootViewController = self.tabBarController;
+
 }
 
 -(void)startLogin{

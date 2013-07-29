@@ -19,6 +19,11 @@
 #define EVENT_LOGIN @"App:Login"
 #define EVENT_LOGOUT @"App:Logout"
 
+#define RELOCATEE_LIST @"Relocate_list"
+#define EXPENSEREPORT_LIST @"ExpenseReport_list"
+#define EXPENSE_LIST @"Expense_list"
+#define EXPENSE_SUMMARY_LIST @"Expense_summary_list"
+
 
 #define REPORTSTATUS @"ReportStatus"
 #define EXPENSEPURPOSE @"ExpensePurpose"

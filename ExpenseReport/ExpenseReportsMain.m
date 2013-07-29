@@ -7,20 +7,26 @@
 //
 
 #import "ExpenseReportsMain.h"
-#import "ReportsViewController.h"
-#import "ExpenseController.h"
-#import "ProfileController.h"
+
 
 @implementation ExpenseReportsMain
 
 
 -(NSArray *)createControllers{
-    ReportsViewController *reports =[[ReportsViewController alloc] initWithNibName:@"ReportsViewController" bundle:nil];
-    ExpenseController *expense = [[ExpenseController alloc] initWithNibName:@"ExpenseController" bundle:nil];
-    ProfileController *profile = [[ProfileController alloc] initWithNibName:@"ProfileController" bundle:nil];
-    return @[[[UINavigationController alloc] initWithRootViewController:reports],
-    [[UINavigationController alloc] initWithRootViewController:expense],
-    [[UINavigationController alloc] initWithRootViewController: profile]];
+    self.reports =[[ReportsViewController alloc] initWithNibName:@"ReportsViewController" bundle:nil];
+    self.expense = [[ExpenseController alloc] initWithNibName:@"ExpenseController" bundle:nil];
+    self.expense.title = @"Expense";
+    self.expense.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Expense" image:[UIImage imageNamed:@"0099"] tag:0];
+    
+    self.profile = [[ProfileController alloc] initWithNibName:@"ProfileController" bundle:nil];
+    
+    self.profile.title = @"Profile";
+    self.profile.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"0012"] tag:0];
+    
+    
+    return @[[[UINavigationController alloc] initWithRootViewController:self.reports],
+    [[UINavigationController alloc] initWithRootViewController:self.expense],
+    [[UINavigationController alloc] initWithRootViewController: self.profile]];
 }
 
 @end

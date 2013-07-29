@@ -87,6 +87,7 @@
     [[AppSettings sharedSettings].http get:url block:^(id json) {
         if ([[AppSettings sharedSettings] isSuccess:json]){
             _list = json[@"result"];
+            [[AppSettings sharedSettings] saveJsonWith:RELOCATEE_LIST data:json[@"result"]];
             [self.tableView reloadData];
         }
     }];

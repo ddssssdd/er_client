@@ -136,6 +136,7 @@
         [_list addObject:@{@"status":item,@"list":[list filteredArrayUsingPredicate:filter]}];
     
     }
+    [[AppSettings sharedSettings] saveJsonWith:EXPENSEREPORT_LIST data:_list];
     [self.refreshControl endRefreshing];
     [self.tableView reloadData];
 }
