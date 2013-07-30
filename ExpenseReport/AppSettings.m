@@ -142,7 +142,7 @@
     return [AppDict sharedDict];
 }
 -(void)login:(id)relocatee userId:(int)userId personId:(int)personId{
-    self.relocateeId = relocatee;
+    self.relocatee = relocatee;
     self.isLogin = YES;
     self.relocateeId = [relocatee[@"RelocateeID"] intValue];
     self.userid = userId;

@@ -83,6 +83,7 @@
 -(void)loginWithPersonId:(int)personId userId:(int)userId{
     _perosnId = personId;
     _userId = userId;
+    [AppSettings sharedSettings].userid = _userId;
     NSString *url =[NSString stringWithFormat:@"users/loginMC?personId=%d",_perosnId];
     [[AppSettings sharedSettings].http get:url block:^(id json) {
         if ([[AppSettings sharedSettings] isSuccess:json]){
