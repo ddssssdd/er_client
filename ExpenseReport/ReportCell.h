@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ReportCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *lblName;
 
 
@@ -18,4 +19,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblPeriodEnd;
 
 -(id)initWithNib;
++(CGFloat)cellWidth;
 @end

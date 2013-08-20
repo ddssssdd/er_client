@@ -10,6 +10,10 @@
 
 @implementation ReportCell
 
++(CGFloat)cellWidth{
+    return [AppSettings sharedSettings].isIphone?55.0:44.0;
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -27,7 +31,11 @@
 }
 
 -(id)initWithNib{
-    self = [[[NSBundle mainBundle] loadNibNamed:@"ReportCell" owner:nil options:nil] objectAtIndex:0];
+    NSString *nibName = @"ReportCell";
+    if (![AppSettings sharedSettings].isIphone){
+        nibName=@"ReportCell_ipad";
+    }
+    self = [[[NSBundle mainBundle] loadNibNamed:nibName owner:nil options:nil] objectAtIndex:0];
     return self;
 }
 

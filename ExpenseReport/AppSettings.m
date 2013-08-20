@@ -211,4 +211,8 @@
         }
     }];
 }
+
+-(BOOL)isIphone{
+    return [[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone;
+}
 @end

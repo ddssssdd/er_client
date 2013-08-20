@@ -58,4 +58,5 @@
 
 
 -(void)registerDeviceToken:(NSString *)token;
+-(BOOL)isIphone;
 @end

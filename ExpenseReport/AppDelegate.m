@@ -61,7 +61,13 @@
 }
 
 -(void)startLogin{
-    LoginViewController *vc =[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    LoginViewController *vc;
+    if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone){
+        vc =[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    }else{
+        vc =[[LoginViewController alloc] initWithNibName:@"LoginViewController_ipad" bundle:nil];
+    }
+    
     UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:vc];
     self.window.rootViewController = controller;
 }

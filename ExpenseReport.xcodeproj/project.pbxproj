@@ -53,6 +53,8 @@
 		E22D3602177978C800CCFB5C /* 0051@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D3600177978C800CCFB5C /* 0051@2x.png */; };
 		E22D3605177978FF00CCFB5C /* 0099.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D3603177978FF00CCFB5C /* 0099.png */; };
 		E22D3606177978FF00CCFB5C /* 0099@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E22D3604177978FF00CCFB5C /* 0099@2x.png */; };
+		E238A69D17B3234700CCAB6B /* LoginViewController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E238A69C17B3234700CCAB6B /* LoginViewController_ipad.xib */; };
+		E238A69F17B3275B00CCAB6B /* ReportCell_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E238A69E17B3275A00CCAB6B /* ReportCell_ipad.xib */; };
 		E245DF171782804600899BE2 /* ExpenseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E245DF161782804600899BE2 /* ExpenseCell.m */; };
 		E245DF191782805B00899BE2 /* ExpenseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E245DF181782805B00899BE2 /* ExpenseCell.xib */; };
 		E245DF1D1782AC1200899BE2 /* EditExpenseReportControler.m in Sources */ = {isa = PBXBuildFile; fileRef = E245DF1B1782AC1200899BE2 /* EditExpenseReportControler.m */; };
@@ -148,6 +150,8 @@
 		E22D3600177978C800CCFB5C /* 0051@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0051@2x.png"; sourceTree = "<group>"; };
 		E22D3603177978FF00CCFB5C /* 0099.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0099.png; sourceTree = "<group>"; };
 		E22D3604177978FF00CCFB5C /* 0099@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0099@2x.png"; sourceTree = "<group>"; };
+		E238A69C17B3234700CCAB6B /* LoginViewController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController_ipad.xib; sourceTree = "<group>"; };
+		E238A69E17B3275A00CCAB6B /* ReportCell_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportCell_ipad.xib; sourceTree = "<group>"; };
 		E245DF151782804600899BE2 /* ExpenseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpenseCell.h; sourceTree = "<group>"; };
 		E245DF161782804600899BE2 /* ExpenseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpenseCell.m; sourceTree = "<group>"; };
 		E245DF181782805B00899BE2 /* ExpenseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpenseCell.xib; sourceTree = "<group>"; };
@@ -339,6 +343,7 @@
 				E22D35DF17792EDA00CCFB5C /* LoginViewController.h */,
 				E22D35E017792EDA00CCFB5C /* LoginViewController.m */,
 				E22D35E117792EDA00CCFB5C /* LoginViewController.xib */,
+				E238A69C17B3234700CCAB6B /* LoginViewController_ipad.xib */,
 				E22D35E41779375F00CCFB5C /* LoginRelocateeController.h */,
 				E22D35E51779375F00CCFB5C /* LoginRelocateeController.m */,
 				E22D35E61779375F00CCFB5C /* LoginRelocateeController.xib */,
@@ -402,6 +407,7 @@
 				E2E6451F177BD78B00363A29 /* ReportCell.h */,
 				E2E64520177BD78B00363A29 /* ReportCell.m */,
 				E2E64524177BD7B800363A29 /* ReportCell.xib */,
+				E238A69E17B3275A00CCAB6B /* ReportCell_ipad.xib */,
 				E2A0571D177D125900496916 /* ReportDetailCell.h */,
 				E2A0571E177D125900496916 /* ReportDetailCell.m */,
 				E2A05720177D127100496916 /* ReportDetailCell.xib */,
@@ -511,6 +517,8 @@
 				E245DF1E1782AC1200899BE2 /* EditExpenseReportControler.xib in Resources */,
 				E2F08BCB1782BB0300055746 /* EditTableRowCell.xib in Resources */,
 				E2F0BA1B17A0FBDB00474489 /* NoteViewController.xib in Resources */,
+				E238A69D17B3234700CCAB6B /* LoginViewController_ipad.xib in Resources */,
+				E238A69F17B3275B00CCAB6B /* ReportCell_ipad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
