@@ -11,9 +11,12 @@
 #import "DatePickerController.h"
 #import "ItemsPickerController.h"
 #import "NoteViewController.h"
-#import "UIImageView+AFNetworking.h"
-@interface EditReportDetailController ()<UIAlertViewDelegate>{
+
+#import "NoteCell.h"
+@interface EditReportDetailController ()<UIAlertViewDelegate,NoteCellDelegate>{
     id _list;
+    BOOL _needSave;
+    int _menuIndex;
 }
 
 @end
@@ -31,18 +34,55 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    _menuIndex = -2;
 
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
+    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backTo)];
     [self init_report_detail];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemsChoosed:) name:MESSAGE_CHOOSE_ITEM object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiptSave:) name:MESSAGE_SAVE_RECEIPT object:nil];
 }
+-(void)backTo{
+    if (!_needSave){
+        for (ExpenseReceipt *receipt in self.detail.items) {
+            if (receipt.receiptId==0 && !receipt.isConfirmed){
+                _needSave = YES;
+                break;
+            }
+            if (receipt.isRemove){
+                _needSave = YES;
+                break;
+            }
+        }
+        
+    }
+    if (_needSave){
+        _menuIndex = -1;
+        [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Do you want to discard changes and quit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Quit",nil] show];
+        return;
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 -(void)save{
     id part1 = [_list objectAtIndex:0];
     self.detail.amount = [[part1 objectAtIndex:3][@"value"] floatValue];
     self.detail.mileage =[[part1 objectAtIndex:4][@"value"] floatValue];
+    NSString *date = [part1 objectAtIndex:0][@"dict_id"];
+    if (![date isEqualToString:@""]){
+        self.detail.expense_date = date;
+    }
+    NSString *purposeId = [NSString stringWithFormat:@"%@",[part1 objectAtIndex:1][@"dict_id"]];
+    if (![purposeId isEqualToString:@""]){
+        self.detail.purpose = [part1 objectAtIndex:1][@"value"];
+        self.detail.purposeId = [purposeId intValue];
+    }
+    NSString *serviceId = [NSString stringWithFormat:@"%@",[part1 objectAtIndex:2][@"dict_id"]];
+    if (![serviceId isEqualToString:@""]){
+        self.detail.service = [part1 objectAtIndex:2][@"value"];
+        self.detail.serviceId =[serviceId intValue];
+    }
     if (self.detail.serviceId==0){
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please choose one service." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return;
@@ -55,7 +95,9 @@
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please input expense date." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return;
     }
-    
+    for (ExpenseReceipt *r in self.detail.items) {
+        r.isConfirmed = YES;
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_SAVE_DETAIL object:self.detail];
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -67,37 +109,46 @@
         [[_list objectAtIndex:1] addObject:receipt];
     }
     [self.tableView reloadData];
+    _needSave = YES;
 }
 -(void)dateChoosed:(NSNotification *)notification{
     id data = notification.userInfo;
     if (data){
-        [self changeValue:data[@"key"] value:data[@"value"]];
-        self.detail.expense_date = data[@"value"];
+        [self changeValue:data[@"key"] value:data[@"value"] value2:data[@"value"]];
+        //self.detail.expense_date = data[@"value"];
+
     }
+    
 }
 -(void)itemsChoosed:(NSNotification *)notification{
     id data = notification.userInfo;
     if (data){
-        [self changeValue:data[@"key"] value:data[@"value"][@"Description"]];
+        
         if ([data[@"key"] isEqual:@"purpose"]){
-            self.detail.purposeId = [data[@"value"][@"ERExpensePurposeID"] intValue];
-            self.detail.purpose = data[@"value"][@"Description"];
+            [self changeValue:data[@"key"] value:data[@"value"][@"Description"] value2:data[@"value"][@"ERExpensePurposeID"]];
+            
+            //self.detail.purposeId = [data[@"value"][@"ERExpensePurposeID"] intValue];
+            //self.detail.purpose = data[@"value"][@"Description"];
         }
         if ([data[@"key"] isEqual:@"service"]){
-            self.detail.serviceId =[data[@"value"][@"ERExpenseserviceID"] intValue];
-            self.detail.service =data[@"value"][@"Description"];
+            [self changeValue:data[@"key"] value:data[@"value"][@"Description"] value2:data[@"value"][@"ERExpenseserviceID"]];
+
+            //self.detail.serviceId =[data[@"value"][@"ERExpenseserviceID"] intValue];
+            //self.detail.service =data[@"value"][@"Description"];
         }
+       
     }
 }
 
--(void)changeValue:(NSString *)key value:(NSString *)value{
+-(void)changeValue:(NSString *)key value:(NSString *)value value2:(NSString *)value2{
     id part1 = [_list objectAtIndex:0];
     for (id item in part1) {
         if ([item[@"key"] isEqual:key]){
             item[@"value"] = value;
+            item[@"dict_id"] = value2;
         }
     }
-
+    _needSave = YES;
     [self.tableView reloadData];
 }
 
@@ -121,6 +172,31 @@
         return [[_list objectAtIndex:section] count]+1;
     }else{
         return [[_list objectAtIndex:section] count];
+    }
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section==1){
+        if (indexPath.row==[[_list objectAtIndex:1] count]){
+            return 44.0f;
+        }else{
+            ExpenseReceipt *receipt =[[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            
+            if (![receipt.filename isEqualToString:@""]){
+                // exist url;
+                return 100.0f;
+            }else{
+                if (receipt.image!=nil){
+                    //just add or edit
+                    return 100.0f;
+                }else{
+                    //no image;
+                    return 44.0f;
+                }
+            }
+
+        }
+    }else{
+        return  44.0f;
     }
 }
 
@@ -151,29 +227,50 @@
         
         return cell;
     }else if (indexPath.section==1){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        }
-        
+                
         if (indexPath.row==[[_list objectAtIndex:indexPath.section] count]){
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+            }
+
             cell.textLabel.text = @"Add Note";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return cell;
         }else{
+
             ExpenseReceipt *receipt =[[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-            cell.textLabel.text = receipt.note;
-            cell.detailTextLabel.text = receipt.filename;
-            cell.imageView.image=nil;
-            if (![receipt.filename isEqualToString:@""]){
-                [cell.imageView setImageWithURL:[NSURL URLWithString:receipt.filename]];
-            }else{
-                if (receipt.image!=nil){
-                    cell.imageView.image = receipt.image;
+            if (![receipt.filename isEqualToString:@""] || receipt.image!=nil){
+                NoteCell *cell = [[NoteCell alloc] initWithNib];
+                cell.noteLabel.text = receipt.note;
+                cell.dateLabel.text = receipt.update_date;
+                cell.receipt = receipt;
+
+                cell.delegate = self;
+                if (![receipt.filename isEqualToString:@""]){
+                
+                    [cell loadImage:receipt.filename];
+                    
+                }else{
+                    if (receipt.image!=nil){
+                        cell.imageNote.image = receipt.image;
+                    }
                 }
+                return cell;
+            }else{
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                if (cell == nil) {
+                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+                }
+                
+                cell.textLabel.text = receipt.note;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                return cell;
             }
+            
         }
         
-        return cell;
+        
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
@@ -187,7 +284,14 @@
     }
 
 }
-
+-(void)gotoView:(NoteCell *)cell{
+    // note yet;
+}
+-(void)gotoEdit:(NoteCell *)cell{
+    NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    controller.receipt =cell.receipt;
+    [self.navigationController pushViewController:controller animated:YES];
+}
 -(void)textChanged:(UITextField *)sender{
 
     id item = [[_list objectAtIndex:0] objectAtIndex:sender.tag];
@@ -242,22 +346,36 @@
             [self.navigationController pushViewController:controller animated:YES];
         }
     }else if (indexPath.section==2){
+        _menuIndex = 0;
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:[NSString stringWithFormat:@"Are you sure to %@ drop this expense?",self.detail.isRemove?@"UNDO":@""] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:self.detail.isRemove?@"Undo":@"Drop", nil] show];
     }
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1){
-        self.detail.isRemove = !self.detail.isRemove;
-        [self.navigationController popViewControllerAnimated:YES];
+        if (_menuIndex==0){
+            self.detail.isRemove = !self.detail.isRemove;
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            //cancel edit
+            int count = [self.detail.items count];
+            for(int i=count-1;i>-1;i--){
+                ExpenseReceipt *receipt = [self.detail.items objectAtIndex:i];
+                if (!receipt.isConfirmed){
+                    [self.detail.items removeObjectAtIndex:i];
+                }
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
         
     }
 }
 -(void)init_report_detail{
-    id part1=@[[[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Expense Date:",@"value":self.detail.expense_date,@"type":@"choose",@"key":@"expense_date",@"keyboard":@""}],
-               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Purpose:",@"value":self.detail.purpose,@"type":@"choose",@"key":@"purpose",@"keyboard":@""}],
-               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Service:",@"value":self.detail.service, @"type":@"choose",@"key":@"service",@"keyboard":@""}],
-               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Amount:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.amount],@"type":@"",@"key":@"amount",@"keyboard":@"number"}],
-               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Miles:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.mileage],@"type":@"",@"key":@"mileage",@"keyboard":@"number"}]
+    id part1=@[[[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Expense Date:",@"value":self.detail.expense_date,@"type":@"choose",@"key":@"expense_date",@"keyboard":@"",@"dict_id":@""}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Purpose:",@"value":self.detail.purpose,@"type":@"choose",@"key":@"purpose",@"keyboard":@"",@"dict_id":@""}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Service:",@"value":self.detail.service, @"type":@"choose",@"key":@"service",@"keyboard":@"",@"dict_id":@""}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Amount:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.amount],@"type":@"",@"key":@"amount",@"keyboard":@"number",@"dict_id":@""}],
+               [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Miles:",@"value":[NSString stringWithFormat:@"%1.2f", self.detail.mileage],@"type":@"",@"key":@"mileage",@"keyboard":@"number",@"dict_id":@""}]
                ];
     
 

@@ -152,6 +152,7 @@
         self.filename =@"";
         self.isImageEdit = NO;
         self.isNoteEdit = NO;
+        self.update_date = @"";
     }
     return self;
 }
@@ -167,6 +168,7 @@
         self.isRemove =NO;
         self.isImageEdit = NO;
         self.isNoteEdit = NO;
+        self.update_date =[[AppSettings sharedSettings] getString:json[@"UpdateDate"]];
         /*
         if (![self.filename isEqualToString:@""]){
             NSURL *url = [NSURL URLWithString:self.filename];

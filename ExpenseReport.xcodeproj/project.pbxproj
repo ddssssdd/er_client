@@ -63,6 +63,9 @@
 		E282BDA8177C261F000ED684 /* AppDict.m in Sources */ = {isa = PBXBuildFile; fileRef = E282BDA7177C261F000ED684 /* AppDict.m */; };
 		E2A0571F177D125900496916 /* ReportDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2A0571E177D125900496916 /* ReportDetailCell.m */; };
 		E2A05721177D127100496916 /* ReportDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2A05720177D127100496916 /* ReportDetailCell.xib */; };
+		E2BA6B9C17CAED4F00AC76AB /* AppDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BA6B9B17CAED4F00AC76AB /* AppDevice.m */; };
+		E2BA6B9E17CB3BAB00AC76AB /* NoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2BA6B9D17CB3BAB00AC76AB /* NoteCell.xib */; };
+		E2BA6BA117CB3C2300AC76AB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BA6BA017CB3C2300AC76AB /* NoteCell.m */; };
 		E2E64521177BD78B00363A29 /* ReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64520177BD78B00363A29 /* ReportCell.m */; };
 		E2E64525177BD7B800363A29 /* ReportCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2E64524177BD7B800363A29 /* ReportCell.xib */; };
 		E2E6452A177BDE4900363A29 /* ReportDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64528177BDE4900363A29 /* ReportDetailController.m */; };
@@ -165,6 +168,11 @@
 		E2A0571D177D125900496916 /* ReportDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportDetailCell.h; sourceTree = "<group>"; };
 		E2A0571E177D125900496916 /* ReportDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportDetailCell.m; sourceTree = "<group>"; };
 		E2A05720177D127100496916 /* ReportDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportDetailCell.xib; sourceTree = "<group>"; };
+		E2BA6B9A17CAED4F00AC76AB /* AppDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDevice.h; sourceTree = "<group>"; };
+		E2BA6B9B17CAED4F00AC76AB /* AppDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDevice.m; sourceTree = "<group>"; };
+		E2BA6B9D17CB3BAB00AC76AB /* NoteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCell.xib; sourceTree = "<group>"; };
+		E2BA6B9F17CB3C2300AC76AB /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
+		E2BA6BA017CB3C2300AC76AB /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
 		E2E6451F177BD78B00363A29 /* ReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCell.h; sourceTree = "<group>"; };
 		E2E64520177BD78B00363A29 /* ReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportCell.m; sourceTree = "<group>"; };
 		E2E64524177BD7B800363A29 /* ReportCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportCell.xib; sourceTree = "<group>"; };
@@ -315,6 +323,8 @@
 				E22D35A417792C6300CCFB5C /* AppSettings.m */,
 				E282BDA6177C261F000ED684 /* AppDict.h */,
 				E282BDA7177C261F000ED684 /* AppDict.m */,
+				E2BA6B9A17CAED4F00AC76AB /* AppDevice.h */,
+				E2BA6B9B17CAED4F00AC76AB /* AppDevice.m */,
 			);
 			name = Public;
 			sourceTree = "<group>";
@@ -414,6 +424,9 @@
 				E245DF151782804600899BE2 /* ExpenseCell.h */,
 				E245DF161782804600899BE2 /* ExpenseCell.m */,
 				E245DF181782805B00899BE2 /* ExpenseCell.xib */,
+				E2BA6B9F17CB3C2300AC76AB /* NoteCell.h */,
+				E2BA6BA017CB3C2300AC76AB /* NoteCell.m */,
+				E2BA6B9D17CB3BAB00AC76AB /* NoteCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -519,6 +532,7 @@
 				E2F0BA1B17A0FBDB00474489 /* NoteViewController.xib in Resources */,
 				E238A69D17B3234700CCAB6B /* LoginViewController_ipad.xib in Resources */,
 				E238A69F17B3275B00CCAB6B /* ReportCell_ipad.xib in Resources */,
+				E2BA6B9E17CB3BAB00AC76AB /* NoteCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +578,8 @@
 				E2F5CDC0178AAA4400D20CC7 /* EditReportDetailController.m in Sources */,
 				E2F5CDC3178AAFF800D20CC7 /* ItemsPickerController.m in Sources */,
 				E2F0BA1A17A0FBDB00474489 /* NoteViewController.m in Sources */,
+				E2BA6B9C17CAED4F00AC76AB /* AppDevice.m in Sources */,
+				E2BA6BA117CB3C2300AC76AB /* NoteCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

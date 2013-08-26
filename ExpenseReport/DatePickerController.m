@@ -38,8 +38,12 @@
 
         _tempDate =[df dateFromString:self.currentDate];
     }
+    CGFloat x = 20;
+    if (![AppDevice isIphone]){
+        x = ([AppDevice screenWidth]-20)/2;
+    }
 	datelabel = [[UILabel alloc] init];
-    datelabel.frame = CGRectMake(10, 20, 300, 40);
+    datelabel.frame = CGRectMake(x, 20, 300, 40);
     datelabel.backgroundColor = [UIColor clearColor];
     datelabel.textColor = [UIColor whiteColor];
     datelabel.font = [UIFont fontWithName:@"Verdana-Bold" size: 20.0];
@@ -54,7 +58,7 @@
     [self.view addSubview:datelabel];
     
     
-    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 70, 325, 300)];
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(x-20, 70, 325, 300)];
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.hidden = NO;
     datePicker.date = _tempDate;

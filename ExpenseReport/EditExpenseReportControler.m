@@ -17,6 +17,7 @@
     id _tempList;
     int _childCount;
     int _menuIndex;
+    BOOL _needSave;
 }
 
 @end
@@ -37,9 +38,32 @@
     [super viewDidLoad];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
+    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backToreport)];
     [self init_report];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDetail:) name:MESSAGE_SAVE_DETAIL object:nil];
+}
+-(void)backToreport{
+    if (!_needSave){
+        for (ERReportDetail *detail  in [_list objectAtIndex:1]) {
+            if (detail.detailId==0){
+                _needSave = YES;
+                break;
+            }
+            if (detail.isRemove){
+                _needSave = YES;
+                break;
+            }
+        }
+        
+    }
+    if (_needSave){
+        _menuIndex = -1;
+        [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Do you want to discard changes and quit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Quit",nil] show];
+        return;
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 -(void)save
 {
@@ -298,12 +322,22 @@
     [[_list objectAtIndex:1] removeAllObjects];
     [[_list objectAtIndex:1] addObjectsFromArray:list];
     [self.tableView reloadData];
+    _needSave = NO;
 }
 -(void)getDetail:(NSNotification *)notification
 {
     NSLog(@"%@",notification.object);
+    _needSave = YES;
     ERReportDetail *detail = notification.object;
-    if (detail.detailId==0){
+    NSMutableArray *detailList = [_list objectAtIndex:1];
+    BOOL *exists = NO;
+    for (ERReportDetail *item in detailList) {
+        if ([detail isEqual:item]){
+            exists = YES;
+        }
+    }
+    
+    if (!exists){
         [[_list objectAtIndex:1] addObject:notification.object];
     }
     
@@ -502,9 +536,11 @@
     
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    //NSLog(@"%d=%d",_menuIndex,buttonIndex);
+    NSLog(@"%d=%d",_menuIndex,buttonIndex);
     if (buttonIndex==1){
-        if (_menuIndex==0){
+        if (_menuIndex==-1){
+            [self.navigationController popViewControllerAnimated:YES];
+        }else  if (_menuIndex==0){
             //submit
             [self.navigationController popViewControllerAnimated:YES];
         }else if (_menuIndex==1){

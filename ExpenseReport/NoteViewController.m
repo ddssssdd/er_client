@@ -9,7 +9,9 @@
 #import "NoteViewController.h"
 #import "UIImageView+AFNetworking.h"
 
-@interface NoteViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface NoteViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
+    UIPopoverController *_popoverController;
+}
 
 @end
 
@@ -58,9 +60,9 @@
 }
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 0){
-        [self snapImage];
+        [self pickImage:UIImagePickerControllerSourceTypeCamera];
     }else if(buttonIndex ==1){
-        [self pickImage];
+        [self pickImage:UIImagePickerControllerSourceTypePhotoLibrary];
     }else if(buttonIndex==2){
         self.image.image = nil;
         self.receipt.isImageEdit = YES;
@@ -123,21 +125,20 @@
    
 }
 
-- (void) pickImage
+- (void) pickImage:(UIImagePickerControllerSourceType )sourceType
 {
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-    ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    ipc.sourceType = sourceType;
     ipc.delegate =self;
     ipc.allowsEditing =NO;
-    [self presentViewController:ipc animated:YES completion:nil];
+    if ([AppDevice isIphone]){
+        [self presentViewController:ipc animated:YES completion:nil];
+    }else{
+        _popoverController = [[UIPopoverController alloc] initWithContentViewController:ipc];
+        [_popoverController presentPopoverFromRect:CGRectMake(0, 0, 200 , 200) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+
 }
 
-- (void) snapImage
-{
-    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-    ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
-    ipc.delegate =self;
-    ipc.allowsEditing =NO;
-        [self presentViewController:ipc animated:YES completion:nil];
-}
+
 @end

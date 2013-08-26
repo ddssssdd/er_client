@@ -68,9 +68,11 @@
 @property (nonatomic) NSString *note;
 @property (nonatomic) NSString *filename;
 @property (nonatomic) UIImage *image;
+@property (nonatomic) NSString *update_date;
 @property (nonatomic) BOOL isRemove;
 @property (nonatomic) BOOL isImageEdit;
 @property (nonatomic) BOOL isNoteEdit;
+@property (nonatomic) BOOL isConfirmed;
 
 -(id)initWithJSON:(id)json;
 @end
