@@ -17,8 +17,8 @@
 #define PRINT_JSON_RETURN 1
 #define APP_KEY @"ExpeneseReport_iphone"
 #define APP_TITLE   @"Expense Report"
-//#define ServerUrl @"http://10.4.30.190:4205/api/"
-#define ServerUrl @"http://apps.synvata.com:8087/ers/api/"
+#define ServerUrl @"http://10.4.30.190:4205/api/"
+//#define ServerUrl @"http://apps.synvata.com:8087/ers/api/"
 #define EVENT_LOGIN @"App:Login"
 #define EVENT_LOGOUT @"App:Logout"
 
@@ -39,4 +39,5 @@
 #define MESSAGE_REPORT_ADD @"message:add_report"
 #define MESSAGE_REPORT_SUBMIT @"message:submit_report"
 #define MESSAGE_REPORT_DROP @"message:drop_report"
+#define MESSAGE_REPORT_SAVE @"message:save_report"
 

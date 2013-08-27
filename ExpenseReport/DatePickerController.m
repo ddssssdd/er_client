@@ -74,6 +74,21 @@
     
 }
 -(void)save{
+    NSDateFormatter *formmater = [[NSDateFormatter alloc] init];
+    [formmater setDateFormat:@"yyyy-MM-dd"];
+    if (self.beginDate){
+        
+        if ([self.datePicker.date compare:self.beginDate]==NSOrderedAscending){
+            [[[UIAlertView alloc] initWithTitle:APP_TITLE message:[NSString stringWithFormat:@"Expense Date must later than %@",[formmater stringFromDate:self.beginDate]] delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil] show];
+            return;
+        }
+    }
+    if (self.endDate){
+        if ([self.datePicker.date compare:self.endDate]==NSOrderedDescending){
+            [[[UIAlertView alloc] initWithTitle:APP_TITLE message:[NSString stringWithFormat:@"Expense Date must earlier than %@",[formmater stringFromDate:self.endDate]] delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil] show];
+            return;
+        }
+    }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_CHOOSE_DATE object:nil userInfo:@{@"value":self.datelabel.text,@"key":self.key}];
     [self.navigationController popViewControllerAnimated:YES];

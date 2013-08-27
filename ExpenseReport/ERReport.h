@@ -42,6 +42,7 @@
 
 @property (nonatomic) NSString *detailTitle;
 @property (nonatomic) BOOL isRemove;
+@property (nonatomic) BOOL hasLoadItems;
 @property (nonatomic) NSMutableArray *items;
 
 -(id)initWithJSON:(id)json;

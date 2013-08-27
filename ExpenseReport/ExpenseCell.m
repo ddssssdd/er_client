@@ -27,7 +27,7 @@
 }
 
 -(id)initWithNib{
-    self = [[[NSBundle mainBundle] loadNibNamed:@"ExpenseCell" owner:nil options:nil] objectAtIndex:0];
+    self = [[[NSBundle mainBundle] loadNibNamed:[AppDevice getNibName: @"ExpenseCell"] owner:nil options:nil] objectAtIndex:0];
     return self;
 }
 

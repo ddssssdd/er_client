@@ -18,6 +18,8 @@
     int _childCount;
     int _menuIndex;
     BOOL _needSave;
+    NSDate *_begindate;
+    NSDate *_enddate;
 }
 
 @end
@@ -40,6 +42,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
     self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backToreport)];
     [self init_report];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDetail:) name:MESSAGE_SAVE_DETAIL object:nil];
 }
@@ -69,12 +72,30 @@
 {
     id part1 = [_list objectAtIndex:0];
     self.report.name = [part1 objectAtIndex:0][@"value"];
-    self.report.people_covered = [[part1 objectAtIndex:3][@"value"] intValue];
-    self.report.description =[part1 objectAtIndex:4][@"value"];
     if ([self.report.name isEqual:@""]){
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Please input report name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return;
+    }else{
+        NSString *url =[NSString stringWithFormat:@"ExpenseReports/existsReportName?name=%@&relocateeId=%d&reportId=%d",self.report.name,[AppSettings sharedSettings].relocateeId,self.report.reportId ];
+        [[AppSettings sharedSettings].http get:url block:^(id json) {
+            if ([[AppSettings sharedSettings] isSuccess:json]){
+                if ([json[@"result"] boolValue]){
+                    [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Report name exist,please change it." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    
+                    return;
+                }else{
+                    [self save_next];
+                }
+                
+            }
+        }];
     }
+}
+-(void)save_next{
+    id part1 = [_list objectAtIndex:0];
+    self.report.people_covered = [[part1 objectAtIndex:3][@"value"] intValue];
+    self.report.description =[part1 objectAtIndex:4][@"value"];
+    
     if (self.report.reportId==0){
         // add new report;
         NSString *url = [NSString stringWithFormat:@"ExpenseReports/addReport?userid=%d&relocateeId=%d&name=%@&beginDate=%@&endDate=%@&peopleCovered=%d&description=%@",
@@ -104,74 +125,19 @@
                          self.report.description];
         [[AppSettings sharedSettings].http get:url block:^(id json) {
             if ([[AppSettings sharedSettings] isSuccess:json]){
+
                 [self saveDetail:self.report isEdit:YES];
             }
         }];
     }
-    
+
     
 }
--(void)saveReceipts_old:(ERReportDetail *)detail items:(NSMutableArray *)items isEdit:(BOOL)isEdit{
+
+-(void)saveReceipts:(int )detailId items:(NSArray *)items isEdit:(BOOL)isEdit{
+    int i=0;
     for (ExpenseReceipt *receipt in items) {
-        if (receipt.receiptId==0){
-            if (receipt.image==nil){
-                //without image
-                NSString *url = [NSString stringWithFormat:@"ExpenseReports/addReceiptNote?userid=%d&reportId=%d&detailId=%d&note=%@",
-                                 [AppSettings sharedSettings].userid,
-                                 self.report.reportId,
-                                 detail.detailId,
-                                 receipt.note];
-                [[AppSettings sharedSettings].http get:url block:^(id json) {
-                    
-                }];
-            }else{
-                //with image;
-                NSString *url =[NSString stringWithFormat:@"ExpenseReports/addReceiptNoteAndImage"];
-                
-                NSData *imageData = UIImagePNGRepresentation(receipt.image);
-                AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:ServerUrl]];
-                NSURLRequest *request = [client multipartFormRequestWithMethod:@"POST" path:url parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData> formData) {
-                    
-                    [formData appendPartWithFileData:imageData name:@"userfile" fileName:@"upload.png" mimeType:@"image/png"];
-                    [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",self.report.reportId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"reportId"];
-                    [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",detail.detailId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"detailId"];
-                    [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",[AppSettings sharedSettings].userid] dataUsingEncoding:NSUTF8StringEncoding]  name:@"userId"];
-                    [formData appendPartWithFormData:[receipt.note dataUsingEncoding:NSUTF8StringEncoding]  name:@"note"];
-                    
-                    
-                    
-                }];
-                AFHTTPRequestOperation *operation=[[AFHTTPRequestOperation alloc] initWithRequest:request];
-                [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    
-                    NSError *error = nil;
-                    id jsonResult =[NSJSONSerialization JSONObjectWithData:operation.responseData options:NSJSONReadingMutableContainers error:&error];
-                    NSLog(@"%@",jsonResult);
-                    
-                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    NSLog(@"Access server error:%@,because %@",error,operation.request);
-                    
-                    
-                }];
-                NSOperationQueue *queue=[[NSOperationQueue alloc] init];
-                [queue addOperation:operation];
-            }
-            
-        }else{
-            if (receipt.isRemove){
-                NSString *url = [NSString stringWithFormat:@"ExpenseReport/removeReceipt?receiptId=%d",receipt.receiptId];
-                [[AppSettings sharedSettings].http get:url block:^(id json) {
-                    
-                }];
-            }else{
-                //edit receipt;
-                //not implement yet.
-            }
-        }
-    }
-}
--(void)saveReceipts:(ERReportDetail *)detail items:(NSMutableArray *)items isEdit:(BOOL)isEdit{
-    for (ExpenseReceipt *receipt in items) {
+        i++;
         if (receipt.isRemove && receipt.receiptId>0){
             NSString *url = [NSString stringWithFormat:@"ExpenseReport/removeReceipt?receiptId=%d",receipt.receiptId];
             [[AppSettings sharedSettings].http get:url block:^(id json) {
@@ -187,7 +153,7 @@
             NSString *url = [NSString stringWithFormat:@"ExpenseReports/addReceiptNote?userid=%d&reportId=%d&detailId=%d&note=%@&receiptId=%d&imageEdit=%d",
                              [AppSettings sharedSettings].userid,
                              self.report.reportId,
-                             detail.detailId,
+                             detailId,
                              receipt.note,
                              receipt.receiptId,
                              receipt.isImageEdit?1:0];
@@ -201,10 +167,10 @@
             NSData *imageData = UIImagePNGRepresentation(receipt.image);
             AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:ServerUrl]];
             NSURLRequest *request = [client multipartFormRequestWithMethod:@"POST" path:url parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData> formData) {
-                
-                [formData appendPartWithFileData:imageData name:@"userfile" fileName:@"upload.png" mimeType:@"image/png"];
+                NSString *filename = [NSString stringWithFormat:@"_%d_%d_%d.png",self.report.reportId,detailId,i];
+                [formData appendPartWithFileData:imageData name:@"userfile" fileName:filename mimeType:@"image/png"];
                 [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",self.report.reportId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"reportId"];
-                [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",detail.detailId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"detailId"];
+                [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",detailId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"detailId"];
                 [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",receipt.receiptId] dataUsingEncoding:NSUTF8StringEncoding]  name:@"receiptId"];
                 [formData appendPartWithFormData:[[NSString stringWithFormat:@"%d",[AppSettings sharedSettings].userid] dataUsingEncoding:NSUTF8StringEncoding]  name:@"userId"];
                 [formData appendPartWithFormData:[receipt.note dataUsingEncoding:NSUTF8StringEncoding]  name:@"note"];
@@ -237,6 +203,9 @@
         [_tempList removeAllObjects];
     }
     _childCount = [[_list objectAtIndex:1] count];
+    if (_childCount==0){
+        [self updateExpense:_tempList report:report];
+    }
     if (isEdit){
         for (ERReportDetail *detail in [_list objectAtIndex:1]) {
             if (detail.detailId==0){
@@ -251,11 +220,12 @@
                 [[AppSettings sharedSettings].http get:url block:^(id json) {
                     if ([[AppSettings sharedSettings] isSuccess:json]){
                         ERReportDetail *temp =[[ERReportDetail alloc] initWithJSON:json[@"result"]];
-                        [self saveReceipts:temp items:detail.items isEdit:NO];
+
+                        [self saveReceipts:temp.detailId items:[NSArray arrayWithArray:detail.items] isEdit:NO];
                         [_tempList addObject:temp];
                         _childCount--;
                         if (_childCount==0){
-                            [self updateExpense:_tempList];
+                            [self updateExpense:_tempList report:report];
                         }
                     }
                 }];
@@ -266,7 +236,7 @@
                         if ([[AppSettings sharedSettings] isSuccess:json]){
                             _childCount--;
                             if (_childCount==0){
-                                [self updateExpense:_tempList];
+                                [self updateExpense:_tempList report:report];
                             }
                         }
                     }];
@@ -282,11 +252,11 @@
                     [[AppSettings sharedSettings].http get:url block:^(id json) {
                         if ([[AppSettings sharedSettings] isSuccess:json]){
                             ERReportDetail *temp =[[ERReportDetail alloc] initWithJSON:json[@"result"]];
-                            [self saveReceipts:temp items:detail.items isEdit:YES];
+                            [self saveReceipts:temp.detailId items:[NSArray arrayWithArray:detail.items] isEdit:YES];
                             [_tempList addObject:temp];
                             _childCount--;
                             if (_childCount==0){
-                                [self updateExpense:_tempList];
+                                [self updateExpense:_tempList report:report];
                             }
                         }
                     }];
@@ -307,10 +277,12 @@
                              detail.mileage];
             [[AppSettings sharedSettings].http get:url block:^(id json) {
                 if ([[AppSettings sharedSettings] isSuccess:json]){
-                    [_tempList addObject:[[ERReportDetail alloc] initWithJSON:json[@"result"]]];
+                    ERReportDetail *temp =[[ERReportDetail alloc] initWithJSON:json[@"result"]];
+                    [self saveReceipts:temp.detailId items:[NSArray arrayWithArray:detail.items] isEdit:NO];
+                    [_tempList addObject:temp];
                     _childCount--;
                     if (_childCount==0){
-                        [self updateExpense:_tempList];
+                        [self updateExpense:_tempList report:report];
                     }
                 }
             }];
@@ -318,11 +290,14 @@
     }
     
 }
--(void)updateExpense:(NSArray *)list{
+-(void)updateExpense:(NSArray *)list report:(ERReport *)report{
+    
     [[_list objectAtIndex:1] removeAllObjects];
     [[_list objectAtIndex:1] addObjectsFromArray:list];
     [self.tableView reloadData];
     _needSave = NO;
+    [self.navigationController popViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_REPORT_SAVE object:report];
 }
 -(void)getDetail:(NSNotification *)notification
 {
@@ -478,6 +453,20 @@
             controller.key = item[@"key"];
             controller.currentDate = item[@"value"];
             [self.navigationController pushViewController:controller animated:YES];
+            [self processDate];
+            if (indexPath.row==1){
+                controller.beginDate =nil;
+                controller.endDate = [AppDevice stringToDate:self.report.end_date];
+                if (!controller.endDate){
+                    controller.endDate = _begindate;
+                }
+            }else if (indexPath.row==2){
+                controller.endDate=nil;
+                controller.beginDate = [AppDevice stringToDate:self.report.begin_date];
+                if (!controller.beginDate){
+                    controller.beginDate = _enddate;
+                }
+            }
         }
     }else if (indexPath.section==1){
         EditReportDetailController *controller = [[EditReportDetailController alloc] initWithReport:self.report];
@@ -489,6 +478,16 @@
         }
         
         [self.navigationController pushViewController:controller animated:YES];
+        NSDateFormatter *formmater = [[NSDateFormatter alloc] init];
+        [formmater setDateFormat:@"yyyy-MM-dd"];
+        if (![self.report.begin_date isEqualToString:@""]){
+
+            
+            controller.beginDate =[formmater dateFromString:self.report.begin_date];
+        }
+        if (![self.report.end_date isEqualToString:@""]){
+            controller.endDate = [formmater dateFromString:self.report.end_date];
+        }
         
     }else if (indexPath.section==2){
         _menuIndex = indexPath.row;
@@ -506,7 +505,13 @@
 
 
 -(void)init_report{
-    id part1=@[[[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Report Name:",@"value":self.report.name,@"type":@"",@"key":@"report_name",@"keyboard":@""}],
+    NSString *report_name;
+    if([self.report.name isEqualToString:@""]){
+        report_name = [[NSString stringWithFormat:@"report_%@",[NSDate date]] substringToIndex:17];
+    }else{
+        report_name = self.report.name;
+    }
+    id part1=@[[[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Report Name:",@"value":report_name,@"type":@"",@"key":@"report_name",@"keyboard":@""}],
             [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Expense Date Begin:",@"value":self.report.begin_date,@"type":@"date",@"key":@"begin_date",@"keyboard":@""}],
                [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Expense Date End:",@"value":self.report.end_date,@"type":@"date",@"key":@"end_date",@"keyboard":@""}],
                [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"#People Covered:",@"value":[NSString stringWithFormat:@"%d", self.report.people_covered],@"type":@"",@"key":@"people_covered",@"keyboard":@"number"}],
@@ -554,5 +559,22 @@
             }];
         }
     }
+}
+-(void)processDate{
+    for (ERReportDetail *detail in [_list objectAtIndex:1]){
+        if (detail.expense_date){
+            if (!_begindate)
+                _begindate =[AppDevice stringToDate:detail.expense_date];
+            if (!_enddate)
+                _enddate = [AppDevice stringToDate:detail.expense_date];
+            
+            NSDate *tempdate = [AppDevice stringToDate:detail.expense_date];
+            if ([tempdate compare:_begindate]==NSOrderedAscending)
+                _begindate = tempdate;
+            if ([tempdate compare:_enddate]==NSOrderedDescending)
+                _enddate = tempdate;
+        }
+    }
+    
 }
 @end

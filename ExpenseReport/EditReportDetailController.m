@@ -39,10 +39,12 @@
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
     self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backTo)];
     [self init_report_detail];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemsChoosed:) name:MESSAGE_CHOOSE_ITEM object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiptSave:) name:MESSAGE_SAVE_RECEIPT object:nil];
 }
+
 -(void)backTo{
     if (!_needSave){
         for (ExpenseReceipt *receipt in self.detail.items) {
@@ -103,8 +105,13 @@
 }
 -(void)receiptSave:(NSNotification *)notification{
     ExpenseReceipt *receipt = notification.object;
-    
-    if (receipt.receiptId==0){
+    BOOL exists = NO;
+    for (ExpenseReceipt *r in [_list objectAtIndex:1]) {
+        if ([r isEqual:receipt]){
+            exists = YES;
+        }
+    }
+    if (!exists){
         
         [[_list objectAtIndex:1] addObject:receipt];
     }
@@ -180,7 +187,9 @@
             return 44.0f;
         }else{
             ExpenseReceipt *receipt =[[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-            
+            if (receipt.isImageEdit){
+                return 100.0f;
+            }
             if (![receipt.filename isEqualToString:@""]){
                 // exist url;
                 return 100.0f;
@@ -247,7 +256,9 @@
                 cell.receipt = receipt;
 
                 cell.delegate = self;
-                if (![receipt.filename isEqualToString:@""]){
+                if (receipt.isImageEdit){
+                    cell.imageNote.image = receipt.image;
+                }else if (![receipt.filename isEqualToString:@""]){
                 
                     [cell loadImage:receipt.filename];
                     
@@ -315,6 +326,8 @@
                 controller.key = item[@"key"];
                 controller.currentDate = item[@"value"];
                 [self.navigationController pushViewController:controller animated:YES];
+                controller.beginDate = self.beginDate;
+                controller.endDate = self.endDate;
             }else if ([item[@"key"] isEqual:@"purpose"]){
                 [[AppSettings sharedSettings].dict get_purposes:^(NSArray *list) {
                     ItemsPickerController *controller = [[ItemsPickerController alloc] initWithList:list];
@@ -380,14 +393,16 @@
     
 
     
-    if (self.detail.detailId>0){
+    if (self.detail.detailId>0 && !self.detail.hasLoadItems){
         NSString *url = [NSString stringWithFormat:@"ExpenseReports/receipts?reportId=%d&detailId=%d",self.report.reportId,self.detail.detailId];
         [[AppSettings sharedSettings].http get:url block:^(id json) {
             if ([[AppSettings sharedSettings] isSuccess:json]){
+                
                 for (id item in json[@"result"]) {
                     ExpenseReceipt *receipt = [[ExpenseReceipt alloc] initWithJSON:item];
                     [self.detail.items addObject:receipt];
                 }
+                self.detail.hasLoadItems = YES;
             }
             _list = @[part1,self.detail.items,@[self.detail.isRemove?@"Undo Drop":@"Drop expense"]];
             [self.tableView reloadData];

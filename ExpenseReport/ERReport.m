@@ -92,6 +92,7 @@
         self.expenseId = [json[@"ExpenseID"] intValue];
         self.mileage = [json[@"Mileage"] floatValue];
         self.items =[[NSMutableArray alloc] init];
+        self.hasLoadItems = NO;
         [[AppSettings sharedSettings].dict get_purposes:^(NSArray *list) {
 
             int index = [list indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {

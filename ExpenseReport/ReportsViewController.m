@@ -39,6 +39,9 @@
     self.refreshControl =[[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(initData) forControlEvents:UIControlEventValueChanged];
     [self initData];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initData) name:MESSAGE_REPORT_SAVE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initData) name:MESSAGE_REPORT_DROP object:nil];
 }
 
 - (void)didReceiveMemoryWarning

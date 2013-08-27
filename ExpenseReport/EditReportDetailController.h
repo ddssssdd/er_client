@@ -12,6 +12,8 @@
 
 @property (nonatomic) ERReport *report;
 @property (nonatomic) ERReportDetail *detail;
+@property (nonatomic) NSDate *beginDate;
+@property (nonatomic) NSDate *endDate;
 
 -(id)initWithReport:(ERReport *)report;
 

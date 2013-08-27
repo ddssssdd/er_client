@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface AppDevice : NSObject
 +(BOOL)isIphone;
 +(float)screenWidth;
 +(float)screenHeight;
 +(NSString *)getNibName:(NSString *)xib;
++(NSString *)dateToString:(NSDate *)date;
++(NSDate *)stringToDate:(NSString *)string;
 @end

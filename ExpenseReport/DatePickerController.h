@@ -18,4 +18,7 @@
 @property(nonatomic,retain) IBOutlet UILabel *datelabel;
 @property (nonatomic) NSString *key;
 @property (nonatomic) NSString *currentDate;
+
+@property (nonatomic) NSDate *beginDate;
+@property (nonatomic) NSDate *endDate;
 @end

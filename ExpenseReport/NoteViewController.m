@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
-    [self.textNote becomeFirstResponder];
+    //[self.textNote becomeFirstResponder];
     self.textNote.text=self.receipt.note;
     if (![self.receipt.filename isEqualToString:@""]){
         [self.image setImageWithURL:[NSURL URLWithString:self.receipt.filename]];
@@ -65,6 +65,7 @@
         [self pickImage:UIImagePickerControllerSourceTypePhotoLibrary];
     }else if(buttonIndex==2){
         self.image.image = nil;
+        self.receipt.image = nil;
         self.receipt.isImageEdit = YES;
         self.receipt.filename=@"";
     }
@@ -76,13 +77,8 @@
             self.receipt.isNoteEdit = YES;
             self.receipt.note = self.textNote.text;
         }
-        if (self.receipt.isImageEdit){
-            self.receipt.image = self.image.image;
-        }
     }else{
-        self.receipt.isImageEdit = YES;
-        self.receipt.isNoteEdit = YES;
-        self.receipt.image = self.image.image;
+        self.receipt.isNoteEdit = ![self.textNote.text isEqualToString:@""];
         self.receipt.note = self.textNote.text;
     }
     
@@ -121,6 +117,7 @@
 {
     self.image.image =[info valueForKey:UIImagePickerControllerOriginalImage];
     [self dismissViewControllerAnimated:YES completion:nil];
+    self.receipt.image =[self scaleToSize:self.image.image size:CGSizeMake(320, 480)];
     self.receipt.isImageEdit=YES;
    
 }

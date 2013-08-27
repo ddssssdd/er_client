@@ -21,4 +21,18 @@
 +(NSString *)getNibName:(NSString *)xib{
     return [NSString stringWithFormat:@"%@%@",xib,[AppDevice isIphone]?@"":@"_ipad"];
 }
++(NSString *)dateToString:(NSDate *)date{
+    if (!date)
+        return nil;
+    NSDateFormatter *formmater = [[NSDateFormatter alloc] init];
+    [formmater setDateFormat:@"yyyy-MM-dd" ];
+    return [formmater stringFromDate:date];
+}
++(NSDate *)stringToDate:(NSString *)string{
+    if ([string isEqualToString:@""])
+        return nil;
+    NSDateFormatter *formmater = [[NSDateFormatter alloc] init];
+    [formmater setDateFormat:@"yyyy-MM-dd" ];
+    return [formmater dateFromString:string];
+}
 @end
