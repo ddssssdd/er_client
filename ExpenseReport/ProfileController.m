@@ -7,7 +7,8 @@
 //
 
 #import "ProfileController.h"
-
+#import "HeaderView.h"
+#import "FooterView.h"
 @interface ProfileController (){
     id _list;
 }
@@ -28,7 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleDone  target:self action:@selector(logout)];
     [self initData];
 }
@@ -85,12 +85,27 @@
     }else if (indexPath.section==1){
         cell.textLabel.text = item[@"status"][@"Description"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d",[item[@"list"] count]];
+        NSString *imageName = [[[[cell.textLabel.text stringByReplacingOccurrencesOfString:@" " withString:@"_"] lowercaseString] stringByAppendingString:@"_list"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+        cell.imageView.image=[UIImage imageNamed:imageName] ;
     }else if (indexPath.section==2){
         cell.textLabel.text=item[@"key"];
         cell.detailTextLabel.text = item[@"value"];
+        cell.imageView.image=[UIImage imageNamed:item[@"icon"]];
     }
+    
     return cell;
     
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    HeaderView *view =[[HeaderView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    if (section==0){
+        [view initWithTitleAndIcon:@"Relocatee List" imageName:nil];
+    }else if (section==1){
+        [view initWithTitleAndIcon:@"Reports summary" imageName:nil];
+    }else{
+        [view initWithTitleAndIcon:@"Expense summary" imageName:nil];
+    }
+    return  view;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (section==0){
@@ -102,6 +117,11 @@
     }
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    FooterView *view = [[FooterView alloc] initWithFrame:CGRectMake(0, 0, 320, 22)];
+    
+    return view;
+}
 
 #pragma mark - Table view delegate
 

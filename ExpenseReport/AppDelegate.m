@@ -15,6 +15,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self customizeAppearance];
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert)];
     if (launchOptions!=nil){
         NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -39,7 +40,41 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startLogin) name:EVENT_LOGOUT object:nil];
     return YES;
 }
+- (void)customizeAppearance
+{
+    // Create resizable images
+    UIImage *gradientImage44 = [[UIImage imageNamed:@"top_bar"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    UIImage *gradientImage32 = [[UIImage imageNamed:@"top_bar"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    // Set the background image for *all* UINavigationBars
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage44
+                                       forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage32
+                                       forBarMetrics:UIBarMetricsLandscapePhone];
+    
+    // Customize the title text for *all* UINavigationBars
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+      UITextAttributeTextColor,
+      [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8],
+      UITextAttributeTextShadowColor,
+      [NSValue valueWithUIOffset:UIOffsetMake(0, -1)],
+      UITextAttributeTextShadowOffset,
+      [UIFont fontWithName:@"Arial-Bold" size:0.0],
+      UITextAttributeFont,
+      nil]];
+    
+    UIImage *gradientImage44_1 = [[UIImage imageNamed:@"bottom_bar"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
 
+    
+    // Set the background image for *all* UINavigationBars
+    [[UITabBar appearance] setBackgroundImage:gradientImage44_1];
+    
+}
 -(void)startApp{
     /*
     UIViewController *viewController1, *viewController2;

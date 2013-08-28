@@ -11,6 +11,8 @@
 #import "ERReport.h"
 #import "ReportDetailController.h"
 #import "EditExpenseReportControler.h"
+#import "HeaderView.h"
+#import "FooterView.h"
 @interface ReportsViewController (){
     NSArray *_reportstatus;
     id _list;
@@ -32,10 +34,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"reports";
+    self.title = @"Reports";
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Reports" image:[UIImage imageNamed:@"0051"] tag:0];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNew)];
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNew)];
+    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add_btn_over"] style:UIBarButtonSystemItemAdd target:self action:@selector(addNew)];
     self.refreshControl =[[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(initData) forControlEvents:UIControlEventValueChanged];
     [self initData];
@@ -93,6 +96,18 @@
     return [ReportCell cellWidth];
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    HeaderView *view = [[HeaderView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [view initWithTitle:[_list objectAtIndex:section][@"status"][@"Description"] ];
+    return view;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    FooterView *view = [[FooterView alloc] initWithFrame:CGRectMake(0, 0, 320, 22)];
+
+    return view;
+}
+
 
 #pragma mark - Table view delegate
 
@@ -141,6 +156,7 @@
     }
     [[AppSettings sharedSettings] saveJsonWith:EXPENSEREPORT_LIST data:_list];
     [self.refreshControl endRefreshing];
+
     [self.tableView reloadData];
 }
 -(void)addNew{

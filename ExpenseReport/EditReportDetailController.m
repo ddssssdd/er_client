@@ -27,6 +27,7 @@
     self =[super initWithStyle:UITableViewStyleGrouped];
     if (self){
         self.report = report;
+        
     }
     return self;
 }
@@ -36,14 +37,18 @@
     [super viewDidLoad];
     _menuIndex = -2;
 
-    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
-    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backTo)];
+    //self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
+    //self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backTo)];
+    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"done_btn_over"] style:UIBarButtonSystemItemDone target:self action:@selector(save)];
+    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cancel_btn_over"] style:UIBarButtonSystemItemCancel target:self action:@selector(save)];
     [self init_report_detail];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemsChoosed:) name:MESSAGE_CHOOSE_ITEM object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiptSave:) name:MESSAGE_SAVE_RECEIPT object:nil];
+
 }
+
 
 -(void)backTo{
     if (!_needSave){
@@ -64,8 +69,12 @@
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Do you want to discard changes and quit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Quit",nil] show];
         return;
     }else{
-        [self.navigationController popViewControllerAnimated:YES];
+        [self backtoparent];
     }
+}
+-(void)backtoparent{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)save{
     id part1 = [_list objectAtIndex:0];
@@ -101,7 +110,7 @@
         r.isConfirmed = YES;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_SAVE_DETAIL object:self.detail];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self backtoparent];
 }
 -(void)receiptSave:(NSNotification *)notification{
     ExpenseReceipt *receipt = notification.object;
@@ -118,6 +127,7 @@
     [self.tableView reloadData];
     _needSave = YES;
 }
+
 -(void)dateChoosed:(NSNotification *)notification{
     id data = notification.userInfo;
     if (data){
@@ -233,7 +243,7 @@
             [cell.text addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
             cell.text.delegate = self;
         }
-        
+
         return cell;
     }else if (indexPath.section==1){
                 
@@ -245,6 +255,7 @@
 
             cell.textLabel.text = @"Add Note";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"more_btn_over"]];
             return cell;
         }else{
 
@@ -367,7 +378,7 @@
     if (buttonIndex==1){
         if (_menuIndex==0){
             self.detail.isRemove = !self.detail.isRemove;
-            [self.navigationController popViewControllerAnimated:YES];
+            [self backtoparent];
         }else{
             //cancel edit
             int count = [self.detail.items count];
@@ -377,7 +388,7 @@
                     [self.detail.items removeObjectAtIndex:i];
                 }
             }
-            [self.navigationController popViewControllerAnimated:YES];
+            [self backtoparent];
         }
         
         

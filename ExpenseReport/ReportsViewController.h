@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ReportsViewController : UITableViewController
+#import "BaseTableViewController.h"
+@interface ReportsViewController : BaseTableViewController
 
 @end

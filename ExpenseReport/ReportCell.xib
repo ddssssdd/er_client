@@ -45,7 +45,7 @@
 								<string key="NSFrame">{{20, 6}, {189, 21}}</string>
 								<reference key="NSSuperview" ref="259526773"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="913888951"/>
+								<reference key="NSNextKeyView" ref="130133892"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -80,7 +80,6 @@
 								<string key="NSFrame">{{205, 16}, {74, 21}}</string>
 								<reference key="NSSuperview" ref="259526773"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="130133892"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -136,6 +135,7 @@
 								<string key="NSFrame">{{107, 30}, {74, 21}}</string>
 								<reference key="NSSuperview" ref="259526773"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="913888951"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -157,7 +157,7 @@
 						<string key="NSFrameSize">{292, 54}</string>
 						<reference key="NSSuperview" ref="622847745"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1000183266"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -283,7 +283,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">17</int>
+			<int key="maxID">18</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

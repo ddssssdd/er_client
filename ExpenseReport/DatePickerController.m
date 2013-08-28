@@ -84,10 +84,15 @@
         }
     }
     if (self.endDate){
-        if ([self.datePicker.date compare:self.endDate]==NSOrderedDescending){
+
+        [formmater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        NSDate *current = [formmater dateFromString:[formmater stringFromDate:self.datePicker.date]];
+        if ([current compare:self.endDate]==NSOrderedDescending){
             [[[UIAlertView alloc] initWithTitle:APP_TITLE message:[NSString stringWithFormat:@"Expense Date must earlier than %@",[formmater stringFromDate:self.endDate]] delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil] show];
             return;
+            
         }
+    
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_CHOOSE_DATE object:nil userInfo:@{@"value":self.datelabel.text,@"key":self.key}];

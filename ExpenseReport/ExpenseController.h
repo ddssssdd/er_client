@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ExpenseController : UITableViewController
+#import "BaseTableViewController.h"
+@interface ExpenseController : BaseTableViewController
 
 @end

@@ -65,8 +65,12 @@
         [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Do you want to discard changes and quit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Quit",nil] show];
         return;
     }else{
-        [self.navigationController popViewControllerAnimated:YES];
+        [self backtoparent];
     }
+}
+-(void)backtoparent{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)save
 {
@@ -296,8 +300,9 @@
     [[_list objectAtIndex:1] addObjectsFromArray:list];
     [self.tableView reloadData];
     _needSave = NO;
-    [self.navigationController popViewControllerAnimated:YES];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_REPORT_SAVE object:report];
+    [self backtoparent];
 }
 -(void)getDetail:(NSNotification *)notification
 {
@@ -402,10 +407,16 @@
         if (indexPath.row==[[_list objectAtIndex:indexPath.section] count]){
             cell.textLabel.text = @"Add New Expense";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"more_btn_over"]];
         }else{
             ERReportDetail *item = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",item.purpose,item.service];
             cell.detailTextLabel.text =[NSString stringWithFormat:@"%1.2f",item.amount];
+            
+            /*cell.textLabel.textColor =[UIColor whiteColor];
+            cell.detailTextLabel.textColor =[UIColor whiteColor];
+             */
+            /*
             if (item.detailId==0){
                 cell.backgroundColor = [UIColor colorWithRed:0 green:255 blue:0 alpha:0];
             }else{
@@ -415,6 +426,7 @@
                     cell.backgroundColor = [UIColor colorWithRed:0 green:0 blue:255 alpha:0];
                 }
             }
+             */
         
         }
         
@@ -469,7 +481,9 @@
             }
         }
     }else if (indexPath.section==1){
-        EditReportDetailController *controller = [[EditReportDetailController alloc] initWithReport:self.report];
+        //EditReportDetailController *controller = [[EditReportDetailController alloc] initWithReport:self.report];
+        EditReportDetailController *controller = [[EditReportDetailController alloc] initWithNibName:@"EditReportDetailController" bundle:nil];
+        controller.report = self.report;
         if (indexPath.row==[[_list objectAtIndex:1] count]){
             controller.detail = [[ERReportDetail alloc] init];
         }else{
@@ -480,6 +494,7 @@
         [self.navigationController pushViewController:controller animated:YES];
         NSDateFormatter *formmater = [[NSDateFormatter alloc] init];
         [formmater setDateFormat:@"yyyy-MM-dd"];
+        [formmater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         if (![self.report.begin_date isEqualToString:@""]){
 
             
@@ -488,6 +503,7 @@
         if (![self.report.end_date isEqualToString:@""]){
             controller.endDate = [formmater dateFromString:self.report.end_date];
         }
+
         
     }else if (indexPath.section==2){
         _menuIndex = indexPath.row;
@@ -499,8 +515,8 @@
             [view show];
         }
     }
-   
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 
 
@@ -544,17 +560,17 @@
     NSLog(@"%d=%d",_menuIndex,buttonIndex);
     if (buttonIndex==1){
         if (_menuIndex==-1){
-            [self.navigationController popViewControllerAnimated:YES];
+            [self backtoparent];
         }else  if (_menuIndex==0){
             //submit
-            [self.navigationController popViewControllerAnimated:YES];
+            [self backtoparent];
         }else if (_menuIndex==1){
             //drop
             NSString *url = [NSString stringWithFormat:@"ExpenseReports/removeReport?reportId=%d",self.report.reportId];
             [[AppSettings sharedSettings].http get:url block:^(id json) {
                 if ([[AppSettings sharedSettings] isSuccess:json]){
                     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_REPORT_DROP object:self.report];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self backtoparent];
                 }
             }];
         }

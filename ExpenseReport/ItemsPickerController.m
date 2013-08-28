@@ -19,7 +19,8 @@
 @implementation ItemsPickerController
 
 -(id)initWithList:(NSArray *)list{
-    self =[super initWithStyle:UITableViewStyleGrouped];
+    //self =[super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithNibName:@"ItemsPickerController" bundle:nil];
     if (self){
         _list = list;
     }
@@ -30,6 +31,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+
 }
 
 -(void)done{

@@ -37,6 +37,7 @@
         nibName=@"ReportCell_ipad";
     }
     self = [[[NSBundle mainBundle] loadNibNamed:nibName owner:nil options:nil] objectAtIndex:0];
+    //self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"list_titlebg"]];
     return self;
 }
 

@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ERReport.h"
-@interface EditReportDetailController : UITableViewController<UITextFieldDelegate>
+#import "BaseTableViewController.h"
+@interface EditReportDetailController : BaseTableViewController<UITextFieldDelegate>
 
 @property (nonatomic) ERReport *report;
 @property (nonatomic) ERReportDetail *detail;

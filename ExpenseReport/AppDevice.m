@@ -26,6 +26,7 @@
         return nil;
     NSDateFormatter *formmater = [[NSDateFormatter alloc] init];
     [formmater setDateFormat:@"yyyy-MM-dd" ];
+    [formmater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     return [formmater stringFromDate:date];
 }
 +(NSDate *)stringToDate:(NSString *)string{
@@ -33,6 +34,7 @@
         return nil;
     NSDateFormatter *formmater = [[NSDateFormatter alloc] init];
     [formmater setDateFormat:@"yyyy-MM-dd" ];
+    [formmater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     return [formmater dateFromString:string];
 }
 @end

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
-@interface ItemsPickerController : UITableViewController
+@interface ItemsPickerController : BaseTableViewController
 @property (nonatomic) NSString *key;
 @property (nonatomic) int selected;
 @property (nonatomic) NSString *fieldName;

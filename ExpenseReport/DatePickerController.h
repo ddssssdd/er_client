@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface DatePickerController : UIViewController{
+#import "BaseViewController.h"
+@interface DatePickerController : BaseViewController{
     IBOutlet UIDatePicker *datePicker;
     IBOutlet UILabel *datelabel;
 }

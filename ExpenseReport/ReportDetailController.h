@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ERReport.h"
-@interface ReportDetailController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+#import "BaseViewController.h"
+@interface ReportDetailController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *txtName;
 @property (weak, nonatomic) IBOutlet UITextField *txtDescription;

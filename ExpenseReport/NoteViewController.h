@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ERReport.h"
+#import "BaseViewController.h"
 
-@interface NoteViewController : UIViewController
+@interface NoteViewController : BaseViewController
 @property (weak, nonatomic) IBOutlet UITextField *textNote;
 
 @property (nonatomic) ExpenseReceipt *receipt;

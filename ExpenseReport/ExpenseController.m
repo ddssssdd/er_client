@@ -31,8 +31,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-     
     [self initData];
 }
 
@@ -125,9 +123,9 @@
             }else{
                 [_summaryList removeAllObjects];
             }
-            [_summaryList addObject:@{@"key":@"Total Records:",@"value":[NSString stringWithFormat:@"%@",json[@"result"][@"count"]]}];
-             [_summaryList addObject:@{@"key":@"Grand total:",@"value":[NSString stringWithFormat:@"%@ USD",json[@"result"][@"amount"]]}];
-              [_summaryList addObject:@{@"key":@"NetCheck Total:",@"value":[NSString stringWithFormat:@"%@ USD",json[@"result"][@"netcheck"]]}];
+            [_summaryList addObject:@{@"key":@"Total Records:",@"value":[NSString stringWithFormat:@"%@",json[@"result"][@"count"]],@"icon":@"total_list"}];
+             [_summaryList addObject:@{@"key":@"Grand total:",@"value":[NSString stringWithFormat:@"%@ USD",json[@"result"][@"amount"]],@"icon":@"grand_total_list"}];
+              [_summaryList addObject:@{@"key":@"NetCheck Total:",@"value":[NSString stringWithFormat:@"%@ USD",json[@"result"][@"netcheck"]],@"icon":@"netcheck_total_list"}];
 
             [[AppSettings sharedSettings] saveJsonWith:EXPENSE_SUMMARY_LIST data:_summaryList];
             [self.tableView reloadData];
