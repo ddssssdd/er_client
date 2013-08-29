@@ -9,7 +9,7 @@
 #import "ProfileController.h"
 #import "HeaderView.h"
 #import "FooterView.h"
-@interface ProfileController (){
+@interface ProfileController ()<UIAlertViewDelegate>{
     id _list;
 }
 
@@ -40,9 +40,14 @@
 }
 
 -(void)logout{
-    [[AppSettings sharedSettings] logout];
-}
+    [[[UIAlertView alloc] initWithTitle:APP_TITLE message:@"Are you sure to logout?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil] show];
 
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1){
+            [[AppSettings sharedSettings] logout];
+    }
+}
 -(void)initData{
     if (_list==nil){
         _list = [[NSMutableArray alloc] init];

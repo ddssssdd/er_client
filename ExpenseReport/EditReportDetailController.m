@@ -46,6 +46,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemsChoosed:) name:MESSAGE_CHOOSE_ITEM object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiptSave:) name:MESSAGE_SAVE_RECEIPT object:nil];
+    self.title = self.report.name;
 
 }
 
@@ -366,6 +367,7 @@
                 [self.navigationController pushViewController:controller animated:YES];
                 controller.beginDate = self.beginDate;
                 controller.endDate = self.endDate;
+                controller.title = self.report.name;
             }else if ([item[@"key"] isEqual:@"purpose"]){
                 [[AppSettings sharedSettings].dict get_purposes:^(NSArray *list) {
                     ItemsPickerController *controller = [[ItemsPickerController alloc] initWithList:list];
@@ -373,6 +375,7 @@
                     controller.selected = self.detail.purposeId;
                     controller.fieldName = @"ERExpensePurposeID";
                     [self.navigationController pushViewController:controller animated:YES];
+                    controller.title = self.report.name;
                 }];
             }else if ([item[@"key"] isEqual:@"service"]){
                 [[AppSettings sharedSettings].dict get_services:^(NSArray *list) {
@@ -381,6 +384,7 @@
                     controller.selected = self.detail.serviceId;
                     controller.fieldName = @"ERExpenseserviceID";                    
                     [self.navigationController pushViewController:controller animated:YES];
+                    controller.title = self.report.name;
                 }];
             }
 
@@ -391,10 +395,12 @@
             NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
             controller.receipt =[[ExpenseReceipt alloc] init];
             [self.navigationController pushViewController:controller animated:YES];
+            controller.title = self.report.name;
         }else{
             NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
             controller.receipt =[[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             [self.navigationController pushViewController:controller animated:YES];
+            controller.title = self.report.name;
         }
     }else if (indexPath.section==2){
         _menuIndex = 0;

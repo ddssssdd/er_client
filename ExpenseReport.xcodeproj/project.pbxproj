@@ -1210,14 +1210,14 @@
 		E22D356217792AAB00CCFB5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Synvata LLC (2854GMH9JF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Synvata LLC (2854GMH9JF)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExpenseReport/ExpenseReport-Prefix.pch";
 				INFOPLIST_FILE = "ExpenseReport/ExpenseReport-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "2969D27C-0A68-46A6-B11D-71578132FEDA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2969D27C-0A68-46A6-B11D-71578132FEDA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1225,14 +1225,14 @@
 		E22D356317792AAB00CCFB5C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Synvata LLC (2854GMH9JF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Synvata LLC (2854GMH9JF)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExpenseReport/ExpenseReport-Prefix.pch";
 				INFOPLIST_FILE = "ExpenseReport/ExpenseReport-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "2969D27C-0A68-46A6-B11D-71578132FEDA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2969D27C-0A68-46A6-B11D-71578132FEDA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

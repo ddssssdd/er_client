@@ -543,6 +543,7 @@
     id part2 = [[NSMutableArray alloc] init];
     
     if (self.report.reportId>0){
+        self.title = self.report.name;
         id part3 =@[@"Submit Report",@"Drop Report"];
         NSString *url =[NSString stringWithFormat:@"ExpenseReports/details?reportId=%d",self.report.reportId];
         
@@ -557,6 +558,7 @@
             }
         }];
     }else{
+        self.title = @"New Report";
         id part3 =@[@"Save and Submit Report"];
         _list = @[part1,part2,part3];
         [self.tableView reloadData];
