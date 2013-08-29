@@ -46,15 +46,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
+
     return 0;
 }
 
@@ -119,5 +116,12 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
 }
-
+-(UIBarButtonItem *)createCustomNavButton:(NSString *)imageName action:(SEL)action{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *butImage = [[UIImage imageNamed:imageName] stretchableImageWithLeftCapWidth:10 topCapHeight:10];
+    [button setBackgroundImage:butImage forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(0, 0, 48, 30);
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
 @end

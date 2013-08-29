@@ -29,7 +29,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
+    self.navigationItem.rightBarButtonItem =  [self createCustomNavButton:@"done_btn_out" action:@selector(save)];
+    self.navigationItem.leftBarButtonItem = [self createCustomNavButton:@"cancel_btn_out" action:@selector(backTo)];
     //[self.textNote becomeFirstResponder];
     self.textNote.text=self.receipt.note;
     if (![self.receipt.filename isEqualToString:@""]){
@@ -66,9 +67,14 @@
     }else if(buttonIndex==2){
         self.image.image = nil;
         self.receipt.image = nil;
-        self.receipt.isImageEdit = YES;
+        if (self.receipt.receiptId>0) {
+            self.receipt.isImageEdit = YES;
+        }
         self.receipt.filename=@"";
     }
+}
+-(void)backTo{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)save{
     [self.textNote resignFirstResponder];

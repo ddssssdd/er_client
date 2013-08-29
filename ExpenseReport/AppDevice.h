@@ -14,6 +14,5 @@
 +(float)screenWidth;
 +(float)screenHeight;
 +(NSString *)getNibName:(NSString *)xib;
-+(NSString *)dateToString:(NSDate *)date;
-+(NSDate *)stringToDate:(NSString *)string;
+
 @end

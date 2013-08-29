@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BaseViewController : UIViewController
-
+-(UIBarButtonItem *)createCustomNavButton:(NSString *)imageName action:(SEL)action;
 @end

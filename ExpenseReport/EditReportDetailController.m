@@ -39,8 +39,8 @@
 
     //self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
     //self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backTo)];
-    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"done_btn_over"] style:UIBarButtonSystemItemDone target:self action:@selector(save)];
-    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cancel_btn_over"] style:UIBarButtonSystemItemCancel target:self action:@selector(save)];
+    self.navigationItem.rightBarButtonItem =[self createCustomNavButton:@"done_btn_out" action:@selector(save)];
+    self.navigationItem.leftBarButtonItem =[self createCustomNavButton:@"cancel_btn_out" action:@selector(backTo)];
     [self init_report_detail];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemsChoosed:) name:MESSAGE_CHOOSE_ITEM object:nil];
@@ -278,6 +278,20 @@
                         cell.imageNote.image = receipt.image;
                     }
                 }
+                if (receipt.receiptId==0){
+                    cell.imageView.image = [AppHelper addImage];
+                    cell.noteLabel.textColor =[UIColor greenColor];
+                    cell.dateLabel.textColor =[UIColor greenColor];
+                }else{
+                    
+                    if (receipt.isRemove){
+                        cell.imageView.image = [AppHelper removeImage];
+                        cell.noteLabel.textColor =[UIColor redColor];
+                        cell.dateLabel.textColor =[UIColor redColor];
+                    }else{
+                        cell.imageView.image = [AppHelper editImage];
+                    }
+                }
                 return cell;
             }else{
                 UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -287,6 +301,18 @@
                 
                 cell.textLabel.text = receipt.note;
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                if (receipt.receiptId==0){
+                    cell.imageView.image = [AppHelper addImage];
+                    cell.textLabel.textColor =[UIColor greenColor];
+                }else{
+                    
+                    if (receipt.isRemove){
+                        cell.imageView.image = [AppHelper removeImage];
+                        cell.textLabel.textColor =[UIColor redColor];
+                    }else{
+                        cell.imageView.image = [AppHelper editImage];
+                    }
+                }
                 return cell;
             }
             
@@ -306,6 +332,7 @@
     }
 
 }
+
 -(void)gotoView:(NoteCell *)cell{
     // note yet;
 }
@@ -378,6 +405,7 @@
     if (buttonIndex==1){
         if (_menuIndex==0){
             self.detail.isRemove = !self.detail.isRemove;
+            [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_EXPENSE_DROP object:self.detail];
             [self backtoparent];
         }else{
             //cancel edit

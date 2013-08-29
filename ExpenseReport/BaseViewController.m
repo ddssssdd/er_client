@@ -34,5 +34,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(UIBarButtonItem *)createCustomNavButton:(NSString *)imageName action:(SEL)action{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *butImage = [[UIImage imageNamed:imageName] stretchableImageWithLeftCapWidth:10 topCapHeight:10];
+    [button setBackgroundImage:butImage forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(0, 0, 48, 30);
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
 @end

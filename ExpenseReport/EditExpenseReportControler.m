@@ -39,12 +39,13 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
-    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backToreport)];
+    self.navigationItem.rightBarButtonItem = [self createCustomNavButton:@"done_btn_out" action:@selector(save)];//[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
+    self.navigationItem.leftBarButtonItem =[self createCustomNavButton:@"cancel_btn_out" action:@selector(backToreport)];//[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backToreport)];
     [self init_report];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChoosed:) name:MESSAGE_CHOOSE_DATE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDetail:) name:MESSAGE_SAVE_DETAIL object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(expenseDrop:) name:MESSAGE_EXPENSE_DROP object:nil];
 }
 -(void)backToreport{
     if (!_needSave){
@@ -416,17 +417,19 @@
             /*cell.textLabel.textColor =[UIColor whiteColor];
             cell.detailTextLabel.textColor =[UIColor whiteColor];
              */
-            /*
+            
             if (item.detailId==0){
-                cell.backgroundColor = [UIColor colorWithRed:0 green:255 blue:0 alpha:0];
+                cell.imageView.image = [AppHelper addImage];
+                cell.textLabel.textColor = [UIColor greenColor];
             }else{
                 if (item.isRemove){
-                    cell.backgroundColor = [UIColor colorWithRed:255 green:0 blue:0 alpha:0];
+                    cell.imageView.image = [AppHelper removeImage];
+                    cell.textLabel.textColor = [UIColor redColor];
                 }else{
-                    cell.backgroundColor = [UIColor colorWithRed:0 green:0 blue:255 alpha:0];
+                    cell.imageView.image = [AppHelper editImage];
                 }
             }
-             */
+            
         
         }
         
@@ -439,6 +442,10 @@
         }
         id item = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         cell.textLabel.text = item;
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"more_btn_over"]];
+        if (indexPath.row==1){
+            cell.textLabel.textColor = [UIColor redColor];
+        }
         return cell;
     }
 
@@ -468,13 +475,13 @@
             [self processDate];
             if (indexPath.row==1){
                 controller.beginDate =nil;
-                controller.endDate = [AppDevice stringToDate:self.report.end_date];
+                controller.endDate = [AppHelper stringToDate:self.report.end_date];
                 if (!controller.endDate){
                     controller.endDate = _begindate;
                 }
             }else if (indexPath.row==2){
                 controller.endDate=nil;
-                controller.beginDate = [AppDevice stringToDate:self.report.begin_date];
+                controller.beginDate = [AppHelper stringToDate:self.report.begin_date];
                 if (!controller.beginDate){
                     controller.beginDate = _enddate;
                 }
@@ -534,8 +541,9 @@
                [[NSMutableDictionary alloc] initWithDictionary:@{@"label":@"Description:",@"value":self.report.description,@"type":@"",@"key":@"description",@"keyboard":@""}]];
     
     id part2 = [[NSMutableArray alloc] init];
-    id part3 =@[@"Submit Report",@"Drop Report"];
+    
     if (self.report.reportId>0){
+        id part3 =@[@"Submit Report",@"Drop Report"];
         NSString *url =[NSString stringWithFormat:@"ExpenseReports/details?reportId=%d",self.report.reportId];
         
         [[AppSettings sharedSettings].http get:url block:^(id json) {
@@ -549,6 +557,7 @@
             }
         }];
     }else{
+        id part3 =@[@"Save and Submit Report"];
         _list = @[part1,part2,part3];
         [self.tableView reloadData];
 
@@ -580,11 +589,11 @@
     for (ERReportDetail *detail in [_list objectAtIndex:1]){
         if (detail.expense_date){
             if (!_begindate)
-                _begindate =[AppDevice stringToDate:detail.expense_date];
+                _begindate =[AppHelper stringToDate:detail.expense_date];
             if (!_enddate)
-                _enddate = [AppDevice stringToDate:detail.expense_date];
+                _enddate = [AppHelper stringToDate:detail.expense_date];
             
-            NSDate *tempdate = [AppDevice stringToDate:detail.expense_date];
+            NSDate *tempdate = [AppHelper stringToDate:detail.expense_date];
             if ([tempdate compare:_begindate]==NSOrderedAscending)
                 _begindate = tempdate;
             if ([tempdate compare:_enddate]==NSOrderedDescending)
@@ -592,5 +601,8 @@
         }
     }
     
+}
+-(void)expenseDrop:(NSNotification *)notification{
+    [self.tableView reloadData];
 }
 @end

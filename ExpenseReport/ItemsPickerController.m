@@ -30,10 +30,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+    self.navigationItem.leftBarButtonItem = [self createCustomNavButton:@"cancel_btn_out" action:@selector(backTo)];
+    self.navigationItem.rightBarButtonItem = [self createCustomNavButton:@"done_btn_out" action:@selector(done)];
 
 }
-
+-(void)backTo{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 -(void)done{
     if (_selectedItem){
         [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_CHOOSE_ITEM object:nil userInfo:@{@"key":self.key,@"value":_selectedItem}];

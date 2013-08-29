@@ -38,7 +38,17 @@
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Reports" image:[UIImage imageNamed:@"0051"] tag:0];
     
     //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNew)];
-    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add_btn_over"] style:UIBarButtonSystemItemAdd target:self action:@selector(addNew)];
+    /*
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *butImage = [[UIImage imageNamed:@"add_btn_over"] stretchableImageWithLeftCapWidth:10 topCapHeight:10];
+    [button setBackgroundImage:butImage forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(addNew) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(0, 0, 48, 30);
+    UIBarButtonItem *addButon = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = addButon;
+     */
+    
+    self.navigationItem.rightBarButtonItem =[self createCustomNavButton:@"add_btn_over" action:@selector(addNew)];
     self.refreshControl =[[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(initData) forControlEvents:UIControlEventValueChanged];
     [self initData];

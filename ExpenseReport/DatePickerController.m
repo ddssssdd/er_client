@@ -68,10 +68,14 @@
          forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:datePicker];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
+    self.navigationItem.leftBarButtonItem = [self createCustomNavButton:@"cancel_btn_out" action:@selector(backTo)];
+    self.navigationItem.rightBarButtonItem = [self createCustomNavButton:@"done_btn_out" action:@selector(save)];
     
     
     
+}
+-(void)backTo{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)save{
     NSDateFormatter *formmater = [[NSDateFormatter alloc] init];

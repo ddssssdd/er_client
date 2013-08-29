@@ -5,6 +5,7 @@
 #import <Availability.h>
 #import "AppSettings.h"
 #import "AppDevice.h"
+#import "AppHelper.h"
 
 #ifndef __IPHONE_4_0
 #warning "This project uses features only available in iOS SDK 4.0 and later."
@@ -40,4 +41,5 @@
 #define MESSAGE_REPORT_SUBMIT @"message:submit_report"
 #define MESSAGE_REPORT_DROP @"message:drop_report"
 #define MESSAGE_REPORT_SAVE @"message:save_report"
+#define MESSAGE_EXPENSE_DROP @"message:expense_drop"
 
