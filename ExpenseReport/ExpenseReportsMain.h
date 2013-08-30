@@ -10,11 +10,13 @@
 #import "ReportsViewController.h"
 #import "ExpenseController.h"
 #import "ProfileController.h"
+#import "ServiceViewController.h"
 
 @interface ExpenseReportsMain : NSObject
 @property (nonatomic) ReportsViewController *reports;
 @property (nonatomic) ExpenseController *expense;
 @property (nonatomic) ProfileController *profile;
+@property (nonatomic) ServiceViewController *services;
 -(NSArray *)createControllers;
 
 @end

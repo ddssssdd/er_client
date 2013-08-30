@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BaseTableViewController : UITableViewController
+@interface BaseTableViewController : UITableViewController{
+    id _list;
+}
 -(UIBarButtonItem *)createCustomNavButton:(NSString *)imageName action:(SEL)action;
+@property (nonatomic) id data;
 @end

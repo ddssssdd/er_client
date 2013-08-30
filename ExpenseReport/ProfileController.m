@@ -9,8 +9,10 @@
 #import "ProfileController.h"
 #import "HeaderView.h"
 #import "FooterView.h"
+#import "BaseTableViewController.h"
 @interface ProfileController ()<UIAlertViewDelegate>{
     id _list;
+    id _sectionList;
 }
 
 @end
@@ -54,11 +56,27 @@
     }else{
         [_list removeAllObjects];
     }
+    if (_sectionList==nil){
+        _sectionList =[[NSMutableArray alloc] init];
+    }else{
+        [_sectionList removeAllObjects];
+    }
+
     id relocatee_list = [[AppSettings sharedSettings] loadJsonBy:RELOCATEE_LIST];
-    if (relocatee_list)
+    if (relocatee_list){
         [_list addObject: relocatee_list];
-    [_list addObject:[[AppSettings sharedSettings] loadJsonBy:EXPENSEREPORT_LIST]];
-    [_list addObject:[[AppSettings sharedSettings] loadJsonBy:EXPENSE_SUMMARY_LIST]];
+        [_sectionList addObject:@{@"title":@"Relocatee List",@"image":@"",@"detail":@"RelocateeViewController"}];
+    }
+    id reports_list =[[AppSettings sharedSettings] loadJsonBy:EXPENSEREPORT_LIST];
+    if (reports_list){
+        [_list addObject:reports_list];
+        [_sectionList addObject:@{@"title":@"Reports summary",@"image":@"title",@"detail":@""}];
+    }
+    id expense_list =[[AppSettings sharedSettings] loadJsonBy:EXPENSE_SUMMARY_LIST];
+    if (expense_list){
+        [_list addObject:expense_list];
+        [_sectionList addObject:@{@"title":@"Expense summary",@"image":@"icon",@"detail":@""}];
+    }
 }
 #pragma mark - Table view data source
 
@@ -79,22 +97,21 @@
     
     //set cell;
     id item = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    //NSLog(@"%@",item);
+    cell.textLabel.text=item[@"key"];
+    cell.detailTextLabel.text = item[@"value"];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
+    [cell.detailTextLabel setFont:[UIFont systemFontOfSize:12]];
     if (indexPath.section==0){
-        cell.textLabel.text = item[@"FirstName"];
-        if ([AppSettings sharedSettings].relocateeId==[item[@"RelocateeID"] intValue]){
+        
+        if ([AppSettings sharedSettings].relocateeId==[item[@"value"] intValue]){
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }else{
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-    }else if (indexPath.section==1){
-        cell.textLabel.text = item[@"status"][@"Description"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d",[item[@"list"] count]];
-        NSString *imageName = [[[[cell.textLabel.text stringByReplacingOccurrencesOfString:@" " withString:@"_"] lowercaseString] stringByAppendingString:@"_list"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
-        cell.imageView.image=[UIImage imageNamed:imageName] ;
-    }else if (indexPath.section==2){
-        cell.textLabel.text=item[@"key"];
-        cell.detailTextLabel.text = item[@"value"];
+    }
+    if ([[_sectionList objectAtIndex:indexPath.section][@"image"] isEqualToString:@"icon"]){
+        cell.imageView.image=[UIImage imageNamed:item[@"icon"]];
+    }else if ([[_sectionList objectAtIndex:indexPath.section][@"image"] isEqualToString:@"title"]){
         cell.imageView.image=[UIImage imageNamed:item[@"icon"]];
     }
     
@@ -103,23 +120,11 @@
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     HeaderView *view =[[HeaderView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    if (section==0){
-        [view initWithTitleAndIcon:@"Relocatee List" imageName:nil];
-    }else if (section==1){
-        [view initWithTitleAndIcon:@"Reports summary" imageName:nil];
-    }else{
-        [view initWithTitleAndIcon:@"Expense summary" imageName:nil];
-    }
+    [view initWithTitleAndIcon:[_sectionList objectAtIndex:section][@"title"] imageName:nil];
     return  view;
 }
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (section==0){
-        return @"Relocatee List";
-    }else if (section==1){
-        return @"Reports summary";
-    }else{
-        return @"Expense summary";
-    }
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 44;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
@@ -132,5 +137,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    id nav =[_sectionList objectAtIndex:indexPath.section];
+    id item = [[_list objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if (![nav[@"detail"] isEqualToString:@""]){
+        
+        BaseTableViewController *vc =[[NSClassFromString(nav[@"detail"]) alloc] initWithNibName:nav[@"detail"] bundle:nil];
+        vc.data  = item;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
 }
 @end

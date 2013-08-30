@@ -17,7 +17,11 @@
 
 
 +(UIBarButtonItem *)createCustomNavButton:(NSString *)imageName action:(SEL)action;
++(UIBarButtonItem *)createCancelButton:(SEL)action;
++(UIBarButtonItem *)createDoneButton:(SEL)action;
 +(UIImage *)addImage;
 +(UIImage *)editImage;
 +(UIImage *)removeImage;
++(NSString *)cellImageName:(NSString *)title;
++(NSString *)headerImageName:(NSString *)title;
 @end

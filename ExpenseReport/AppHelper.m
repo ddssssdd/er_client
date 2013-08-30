@@ -18,6 +18,12 @@
     button.frame = CGRectMake(0, 0, 48, 30);
     return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
++(UIBarButtonItem *)createCancelButton:(SEL)action{
+    return [AppHelper createCustomNavButton:@"cancel_btn_out" action:action];
+}
++(UIBarButtonItem *)createDoneButton:(SEL)action{
+    return [AppHelper createCustomNavButton:@"done_btn_out" action:action];
+}
 +(NSString *)dateToString:(NSDate *)date{
     if (!date)
         return nil;
@@ -43,4 +49,11 @@
 +(UIImage *)removeImage{
     return [UIImage imageNamed:@"delete_list"];
 }
++(NSString *)cellImageName:(NSString *)title{
+    return [[[[title stringByReplacingOccurrencesOfString:@" " withString:@"_"] lowercaseString] stringByAppendingString:@"_list"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+}
++(NSString *)headerImageName:(NSString *)title{
+    return [[[[title stringByReplacingOccurrencesOfString:@" " withString:@"_"] lowercaseString] stringByAppendingString:@"_title"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+}
+
 @end

@@ -89,7 +89,15 @@
     [[AppSettings sharedSettings].http get:url block:^(id json) {
         if ([[AppSettings sharedSettings] isSuccess:json]){
             _list = json[@"result"];
-            [[AppSettings sharedSettings] saveJsonWith:RELOCATEE_LIST data:json[@"result"]];
+            
+            id    _summaryList = [[NSMutableArray alloc] init];
+                
+            for (id item in _list) {
+                [_summaryList addObject:@{@"key":item[@"FirstName"],@"value":[NSString stringWithFormat:@"%@",item[@"RelocateeID"]]}];
+            }
+            
+            
+            [[AppSettings sharedSettings] saveJsonWith:RELOCATEE_LIST data:_summaryList];
             [self.tableView reloadData];
         }
     }];
