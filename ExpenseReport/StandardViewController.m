@@ -1,19 +1,18 @@
 //
-//  RelocateeViewController.m
+//  StandardViewController.m
 //  ExpenseReport
 //
-//  Created by Steven Fu on 8/30/13.
+//  Created by Steven Fu on 9/5/13.
 //  Copyright (c) 2013 Fu Steven. All rights reserved.
 //
 
-#import "RelocateeViewController.h"
 #import "StandardViewController.h"
 
-@interface RelocateeViewController ()
+@interface StandardViewController ()
 
 @end
 
-@implementation RelocateeViewController
+@implementation StandardViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -28,7 +27,6 @@
 {
     [super viewDidLoad];
 
-    self.title = [self.data[@"key"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     [self loadData];
 }
 
@@ -47,7 +45,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[_list objectAtIndex:section][@"list"] count];
+    return [[_list objectAtIndex:section][@"Items"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -57,34 +55,30 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
-    id item = [[_list objectAtIndex:indexPath.section][@"list"] objectAtIndex:indexPath.row];
+    id item = [[_list objectAtIndex:indexPath.section][@"Items"] objectAtIndex:indexPath.row];
     cell.textLabel.text = item[@"Title"];
     [cell.textLabel setFont:[UIFont systemFontOfSize:12]];
     cell.detailTextLabel.text =[[AppSettings sharedSettings] getString: item[@"Detail"]];
     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:10]];
-    if (item[@"Url"] && ![item[@"Url"] isEqualToString:@""]){
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }else{
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
     return cell;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return [_list objectAtIndex:section][@"title"];
+    return [_list objectAtIndex:section][@"Title"];
 }
 -(void)loadData{
-    //NSString *url =[NSString stringWithFormat:@"Relocatee/index/%@",self.data[@"value"]];
-    NSString *url =[NSString stringWithFormat:@"Relocatee/summary/%@",self.data[@"value"]];
-    [[AppSettings sharedSettings].http get:url block:^(id json) {
+
+
+    [[AppSettings sharedSettings].http get:self.url block:^(id json) {
         if ([[AppSettings sharedSettings] isSuccess:json]){
             _list = json[@"result"];
             [self.tableView reloadData];
-
+            
         }
     }];
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    id item = [[_list objectAtIndex:indexPath.section][@"list"] objectAtIndex:indexPath.row];
+    id item = [[_list objectAtIndex:indexPath.section][@"Items"] objectAtIndex:indexPath.row];
     if (item[@"Url"] && ![item[@"Url"] isEqualToString:@""]){
         StandardViewController *vc = [[StandardViewController alloc] initWithNibName:@"StandardViewController" bundle:nil];
         vc.url = item[@"Url"];
@@ -92,4 +86,5 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
 @end
