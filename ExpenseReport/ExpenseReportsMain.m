@@ -24,7 +24,7 @@
     self.profile.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"0012"] tag:1];
     
     self.services =[[ServiceViewController alloc] initWithNibName:@"ServiceViewController" bundle:nil];
-    self.services.tabBarItem =[[UITabBarItem alloc] initWithTitle:@"Service" image:[UIImage imageNamed:@"0099"] tag:2];
+    self.services.tabBarItem =[[UITabBarItem alloc] initWithTitle:@"Service" image:[UIImage imageNamed:@"0217"] tag:2];
     
     return @[[[UINavigationController alloc] initWithRootViewController:self.reports],
     [[UINavigationController alloc] initWithRootViewController:self.expense],

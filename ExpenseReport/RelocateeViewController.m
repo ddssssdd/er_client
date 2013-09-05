@@ -59,7 +59,7 @@
     id item = [[_list objectAtIndex:indexPath.section][@"Items"] objectAtIndex:indexPath.row];
     cell.textLabel.text = item[@"Title"];
     [cell.textLabel setFont:[UIFont systemFontOfSize:12]];
-    cell.detailTextLabel.text = item[@"Detail"];
+    cell.detailTextLabel.text =[[AppSettings sharedSettings] getString: item[@"Detail"]];
     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:10]];
     return cell;
 }
