@@ -72,6 +72,9 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     return [_list objectAtIndex:section][@"title"];
 }
+-(NSString *)getHeaderTitle:(int)section{
+    return [_list objectAtIndex:section][@"title"];
+}
 -(void)loadData{
     //NSString *url =[NSString stringWithFormat:@"Relocatee/index/%@",self.data[@"value"]];
     NSString *url =[NSString stringWithFormat:@"Relocatee/summary/%@",self.data[@"value"]];

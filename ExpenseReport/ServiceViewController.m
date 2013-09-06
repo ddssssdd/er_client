@@ -7,6 +7,7 @@
 //
 
 #import "ServiceViewController.h"
+#import "StandardViewController.h"
 
 @interface ServiceViewController ()
 
@@ -68,18 +69,18 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     return [_list objectAtIndex:section][@"name"];
 }
-
+-(NSString *)getHeaderTitle:(int)section{
+    return [_list objectAtIndex:section][@"name"];
+}
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    id item = [[_list objectAtIndex:indexPath.section][@"list"] objectAtIndex:indexPath.row];
+    NSString *url = [NSString stringWithFormat:@"Service/%@/%d",item[@"Name"],[AppSettings sharedSettings].relocateeId];
+    StandardViewController *vc = [[StandardViewController alloc] initWithNibName:@"StandardViewController" bundle:nil];
+    vc.url = url;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)loadData{

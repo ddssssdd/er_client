@@ -13,4 +13,5 @@
 }
 -(UIBarButtonItem *)createCustomNavButton:(NSString *)imageName action:(SEL)action;
 @property (nonatomic) id data;
+-(NSString *)getHeaderTitle:(int)section;
 @end

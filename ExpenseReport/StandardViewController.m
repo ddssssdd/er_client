@@ -65,6 +65,9 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     return [_list objectAtIndex:section][@"Title"];
 }
+-(NSString *)getHeaderTitle:(int)section{
+    return [_list objectAtIndex:section][@"Title"];
+}
 -(void)loadData{
 
 
